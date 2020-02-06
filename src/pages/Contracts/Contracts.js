@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Image, Dropdown, Segment } from "semantic-ui-react";
+import { Card, Button, Dropdown, Segment } from "semantic-ui-react";
 
 const Contracts = () => {
   return (
@@ -11,7 +11,7 @@ const Contracts = () => {
           style={{ padding: "0", border: "0", boxShadow: "none" }}
         >
           <Dropdown text="Опції">
-            <Dropdown.Menu>
+            <Dropdown.Menu style={{ left: "-115px" }}>
               <Dropdown.Item text="Налаштування" icon="setting" />
               <Dropdown.Item text="Переглянуты об'єкти" icon="building" />
               <Dropdown.Item text="Угоди" icon="file pdf" />
