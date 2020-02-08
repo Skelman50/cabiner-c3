@@ -1,36 +1,62 @@
-import React, { Fragment } from "react";
-import { Segment, Menu, Image } from "semantic-ui-react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import useMediaQuery from "react-use-media-query-hook";
+import { Segment, Menu, Image, Icon } from "semantic-ui-react";
 import yavir from "../../assets/images/yavir.png";
+import Backdrop from "../../navigation/MobileNavigation/BackDrop";
+import SideDrawer from "../../navigation/MobileNavigation/SideNav";
 
-const PageLayout = props => {
+import "./PageHeader.css";
+import ContragentsList from "../../components/shared/ContragentsList/ContragentsList";
+import DropDownMenu from "../../components/shared/DropDownMenu/DropDownMenu";
+import ContagentInfo from "../../components/shared/ContagentInfo/ContragentInfo";
+import DesktopNavigation from "../../navigation/DesktopNavigation/DesktopNavigation";
+
+const PageLayout = () => {
+  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  const [isContragentMenu, setIsContagentMenu] = useState(false);
+  const handleCloseDrawer = () => {
+    setDrawerIsOpen(false);
+  };
+  const handleClickContragentMenu = () => {
+    setIsContagentMenu(prevState => !prevState);
+  };
+
+  const handleCloseContragentMenu = () => {
+    setIsContagentMenu(false);
+  };
+
+  const isMobile = useMediaQuery("(max-width: 800px)");
   return (
-    <Fragment>
-      <Segment
-        inverted
-        style={{
-          borderRadius: "0",
-          boxShadow: "none"
-        }}
-      >
-        <Menu
-          inverted
-          pointing
-          secondary
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto"
-          }}
-        >
-          {/* <Menu.Item name="контрагенти" as={NavLink} to="/" exact /> */}
-          <Menu.Item name="угоди" as={NavLink} to="/contracts" />
-          <Menu.Item name="архіви" as={NavLink} to="/friends" />
-          <Menu.Menu position="right">
+    <div className="main-header">
+      {drawerIsOpen && <Backdrop onClick={handleCloseDrawer} />}
+      <SideDrawer show={drawerIsOpen} onClick={handleCloseDrawer} />
+      <Segment inverted className="segment-no-border no-radius no-margin">
+        <Menu inverted pointing secondary className="nav-header">
+          {!isMobile && <DesktopNavigation />}
+          {isMobile && (
+            <Menu.Menu position="left" className="side-nav-icon">
+              <Icon
+                name="bars"
+                size="big"
+                onClick={() => setDrawerIsOpen(true)}
+              />
+            </Menu.Menu>
+          )}
+
+          <Menu.Menu position="right" className="contragent-menu">
+            <ContragentsList handleClickModal={handleClickContragentMenu} />
+            <ContagentInfo />
+          </Menu.Menu>
+
+          <Menu.Menu position="right" className="logo">
             <Image src={yavir} alt="" style={{ height: "50px" }} />
           </Menu.Menu>
+          {isContragentMenu && (
+            <DropDownMenu handleClose={handleCloseContragentMenu} />
+          )}
         </Menu>
       </Segment>
-    </Fragment>
+    </div>
   );
 };
 

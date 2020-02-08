@@ -1,38 +1,30 @@
-import React from "react";
-import { Card, Button, Dropdown, Segment } from "semantic-ui-react";
+import React, { useContext, useEffect } from "react";
+import CardItem from "../../containers/contracts/CardItem";
+import { Segment } from "semantic-ui-react";
+import { ContractsContext } from "../../context/contracts/contracts-context";
+import { AuthContext } from "../../context/auth/auth-context";
 
 const Contracts = () => {
+  const { currentUser } = useContext(AuthContext);
+  const { loadContracts, loadingContracts, contracts } = useContext(
+    ContractsContext
+  );
+  useEffect(() => {
+    if (!currentUser) return;
+    console.log("load contracts");
+    loadContracts({ Ref_Key: currentUser.Ref_Key });
+  }, [loadContracts, currentUser]);
   return (
-    <Card fluid>
-      <Card.Content>
-        <Segment
-          as="div"
-          floated="right"
-          style={{ padding: "0", border: "0", boxShadow: "none" }}
-        >
-          <Dropdown text="Опції">
-            <Dropdown.Menu style={{ left: "-115px" }}>
-              <Dropdown.Item text="Налаштування" icon="setting" />
-              <Dropdown.Item text="Переглянуты об'єкти" icon="building" />
-              <Dropdown.Item text="Угоди" icon="file pdf" />
-              <Dropdown.Item text="Акти" icon="file pdf" />
-            </Dropdown.Menu>
-          </Dropdown>
-        </Segment>
-        <Card.Header>Steve Sanders</Card.Header>
-        <Card.Meta>Friends of Elliot</Card.Meta>
-        <Card.Description>
-          Steve wants to add you to the group <strong>best friends</strong>
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <div className="ui two buttons">
-          <Button basic color="green">
-            Сплатити{" "}
-          </Button>
-        </div>
-      </Card.Content>
-    </Card>
+    <Segment
+      className="segment-no-border no-padding"
+      disabled={loadingContracts}
+      loading={loadingContracts}
+    >
+      {contracts &&
+        contracts.map(contract => (
+          <CardItem key={contract.Ref_Key} contract={contract} />
+        ))}
+    </Segment>
   );
 };
 

@@ -1,0 +1,32 @@
+.main-header {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  z-index: 200;
+  width: 100% !important;
+}
+
+.nav-header {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.contragent-menu {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  max-width: 50% !important;
+}
+
+@media (max-width: 1024px) {
+  .contragent-menu {
+    max-width: 80% !important;
+  }
+}
+
+@media (max-width: 550px) {
+  .contragent-menu {
+    max-width: 65% !important;
+  }
+}
