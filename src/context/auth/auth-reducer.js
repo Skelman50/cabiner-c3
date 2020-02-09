@@ -49,7 +49,8 @@ const handlers = {
     ...state,
     pinStatus: payload.status,
     pinTimeout: payload.timeOut,
-    pinType: payload.typeSend
+    pinType: payload.typeSend,
+    error: null
   }),
   [SET_CURRENT_USER]: (state, { payload }) => ({
     ...state,

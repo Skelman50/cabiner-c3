@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button, Card } from "semantic-ui-react";
 import { AuthContext } from "../../context/auth/auth-context";
 
 import "./Login.css";
@@ -98,7 +98,11 @@ const Login = () => {
         password
       });
     } else {
-      checkPin({ phonenumber, pin, isLogIn: true });
+      checkPin({
+        phonenumber: phonenumber.replace("+", ""),
+        pin,
+        isLogIn: true
+      });
     }
   };
 
@@ -119,54 +123,61 @@ const Login = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit} loading={loadingUser}>
-      <Form.Field>
-        {error && <ErrorMessage error={error} />}
-        {dbUser && !isPassword && !error && (
-          <InfoMessage text={"Введіть свій пароль!"} />
-        )}
-        {isPassword && timer !== 0 && !error && (
-          <InfoMessage text={pinMessage()} />
-        )}
-        {!dbUser && (
-          <InputField
-            isPhone
-            value={phonenumber}
-            inputRef={phoneInputRef}
-            handleChange={handleChangePhoneInput}
+    <Card style={{ width: "100%", padding: "1.5em" }}>
+      <Form onSubmit={handleSubmit} loading={loadingUser}>
+        <Form.Field>
+          {error && <ErrorMessage error={error} />}
+          {dbUser && !isPassword && !error && (
+            <InfoMessage text={"Введіть свій пароль!"} />
+          )}
+          {isPassword && timer !== 0 && !error && (
+            <InfoMessage text={pinMessage()} />
+          )}
+          {pinStatus === "No Send" && error && timer !== 0 && (
+            <InfoMessage text={pinMessage()} />
+          )}
+          {!dbUser && (
+            <InputField
+              isPhone
+              value={phonenumber}
+              inputRef={phoneInputRef}
+              handleChange={handleChangePhoneInput}
+            />
+          )}
+          {dbUser && !isPassword && (
+            <InputField
+              isPassword
+              inputRef={passwordInputRef}
+              value={password}
+              handleChange={handleChangePassword}
+            />
+          )}
+          {isPassword && (
+            <InputField
+              isPin
+              value={pin}
+              timer={timer}
+              inputRef={pinInputRef}
+              handleChange={handleChangePin}
+              onClick={() =>
+                getPin({ phoneToPin: phonenumber.replace("+", "") })
+              }
+            />
+          )}
+        </Form.Field>
+        <div style={{ width: "100%", display: "flex" }}>
+          <Button
+            type="submit"
+            basic
+            color="blue"
+            icon="send"
+            style={{ width: "50%" }}
+            disabled={loadingUser || phonenumber.length < 9}
+            content="Відіслати"
           />
-        )}
-        {dbUser && !isPassword && (
-          <InputField
-            isPassword
-            inputRef={passwordInputRef}
-            value={password}
-            handleChange={handleChangePassword}
-          />
-        )}
-        {isPassword && (
-          <InputField
-            isPin
-            value={pin}
-            timer={timer}
-            inputRef={pinInputRef}
-            handleChange={handleChangePin}
-            onClick={() => getPin({ phoneToPin: phonenumber.replace("+", "") })}
-          />
-        )}
-      </Form.Field>
-      <div style={{ width: "100%", display: "flex" }}>
-        <Button
-          type="submit"
-          basic
-          color="blue"
-          icon="send"
-          style={{ width: "50%" }}
-          disabled={loadingUser || phonenumber.length < 9}
-          content="Відіслати"
-        />
-      </div>
-    </Form>
+        </div>
+      </Form>
+    </Card>
   );
 };
 
