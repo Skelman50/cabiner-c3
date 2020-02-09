@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment, useContext } from "react";
 import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import yavir from "../../assets/images/yavir.png";
@@ -6,8 +6,10 @@ import yavir from "../../assets/images/yavir.png";
 import "./SideNav.css";
 import { Icon, Image, Menu } from "semantic-ui-react";
 import { NavLink, Link } from "react-router-dom";
+import { AuthContext } from "../../context/auth/auth-context";
 
 const SideDrawer = ({ show, onClick }) => {
+  const { isLoggedIn, logOut } = useContext(AuthContext);
   const content = (
     <CSSTransition
       in={show}
@@ -21,22 +23,47 @@ const SideDrawer = ({ show, onClick }) => {
           <Icon name="close" inverted className="icon-close" />
           <Image src={yavir} alt="" style={{ height: "80px" }} />
         </div>
+
         <Menu pointing secondary vertical style={{ width: "100%" }}>
-          <Menu.Item
-            as={NavLink}
-            to="/"
-            exact
-            name="Угоди"
-            icon="list alternate outline"
-          />
-          <Menu.Item name="Архіви" icon="archive" as={NavLink} to="/archives" />
-          <Menu.Item
-            name="Налаштування"
-            icon="settings"
-            as={NavLink}
-            to="/settings"
-          />
-          <Menu.Item name="Вихід" icon="log out" as={Link} to="#" />
+          {isLoggedIn && (
+            <Fragment>
+              <Menu.Item
+                as={NavLink}
+                to="/"
+                exact
+                name="Угоди"
+                icon="list alternate outline"
+              />
+              <Menu.Item
+                name="Архіви"
+                icon="archive"
+                as={NavLink}
+                to="/archives"
+              />
+              <Menu.Item
+                name="Налаштування"
+                icon="settings"
+                as={NavLink}
+                to="/settings"
+              />
+              <Menu.Item
+                name="Вихід"
+                icon="log out"
+                as={Link}
+                to="#"
+                onClick={logOut}
+              />
+            </Fragment>
+          )}
+          {!isLoggedIn && (
+            <Menu.Item
+              name="вхід до особистого кабінету"
+              as={NavLink}
+              to="/login"
+              exact
+              icon="sign in"
+            />
+          )}
         </Menu>
       </aside>
     </CSSTransition>

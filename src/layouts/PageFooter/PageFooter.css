@@ -46,3 +46,9 @@
     padding-bottom: 7.5px !important;
   }
 }
+
+@media (max-height: 450px) {
+  .main-footer {
+    display: none !important;
+  }
+}

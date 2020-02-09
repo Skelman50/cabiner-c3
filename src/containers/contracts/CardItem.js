@@ -8,9 +8,9 @@ const CardItem = ({ contract }) => {
   return (
     <Card fluid>
       <ContractsCardContent contract={contract}>
-        <ContractDropDown />
+        <ContractDropDown contract={contract} />
       </ContractsCardContent>
-      <ContractCardAction />
+      {contract.isliqpay && <ContractCardAction />}
     </Card>
   );
 };

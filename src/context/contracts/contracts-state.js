@@ -7,7 +7,7 @@ import { contractsReducer } from "./contracts-reducer";
 const ContractsState = ({ children }) => {
   const initialState = {
     contracts: [],
-    loadingContracts: true,
+    loadingContracts: false,
     error: null
   };
   const [state, dispatch] = useReducer(contractsReducer, initialState);
@@ -20,6 +20,7 @@ const ContractsState = ({ children }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("auth");
+      console.log(token);
       const response = await request({
         token,
         url: "loadcontracts",

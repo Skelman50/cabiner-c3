@@ -6,6 +6,8 @@ import PageWrapper from "../PageWrapper/PageWrapper";
 import PageFooter from "../PageFooter/PageFooter";
 import { AuthContext } from "../../context/auth/auth-context";
 import { Segment } from "semantic-ui-react";
+import PrivateRoute from "../../components/shared/PrivateRoute/PrivateRoute";
+import Login from "../../pages/Login/Login";
 
 const Routers = () => {
   const { loadUser, isUserLoaded } = useContext(AuthContext);
@@ -20,9 +22,16 @@ const Routers = () => {
       <PageHeader />
       <PageWrapper>
         <Switch>
-          <Route path="/" exact component={Contracts} />
-          <Route path="/archives" component={() => <div>sadasdasd</div>} />
-          <Route path="/settings" component={() => <div>settings</div>} />
+          <PrivateRoute path="/" exact component={Contracts} />
+          <PrivateRoute
+            path="/archives"
+            component={() => <div>sadasdasd</div>}
+          />
+          <PrivateRoute
+            path="/settings"
+            component={() => <div>settings</div>}
+          />
+          <Route path="/login" component={Login} />
           <Redirect to="/contracts" />
         </Switch>
       </PageWrapper>

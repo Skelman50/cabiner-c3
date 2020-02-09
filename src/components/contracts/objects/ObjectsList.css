@@ -1,0 +1,5 @@
+@media (max-width: 550px) {
+  .contracts-objects__list-header .content {
+    font-size: 0.75em !important;
+  }
+}

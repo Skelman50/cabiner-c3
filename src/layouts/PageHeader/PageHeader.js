@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import useMediaQuery from "react-use-media-query-hook";
 import { Segment, Menu, Image, Icon } from "semantic-ui-react";
 import yavir from "../../assets/images/yavir.png";
@@ -10,10 +10,13 @@ import ContragentsList from "../../components/shared/ContragentsList/Contragents
 import DropDownMenu from "../../components/shared/DropDownMenu/DropDownMenu";
 import ContagentInfo from "../../components/shared/ContagentInfo/ContragentInfo";
 import DesktopNavigation from "../../navigation/DesktopNavigation/DesktopNavigation";
+import { AuthContext } from "../../context/auth/auth-context";
 
 const PageLayout = () => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [isContragentMenu, setIsContagentMenu] = useState(false);
+  const { isLoggedIn } = useContext(AuthContext);
+
   const handleCloseDrawer = () => {
     setDrawerIsOpen(false);
   };
@@ -43,10 +46,12 @@ const PageLayout = () => {
             </Menu.Menu>
           )}
 
-          <Menu.Menu position="right" className="contragent-menu">
-            <ContragentsList handleClickModal={handleClickContragentMenu} />
-            <ContagentInfo />
-          </Menu.Menu>
+          {isLoggedIn && (
+            <Menu.Menu position="right" className="contragent-menu">
+              <ContragentsList handleClickModal={handleClickContragentMenu} />
+              <ContagentInfo />
+            </Menu.Menu>
+          )}
 
           <Menu.Menu position="right" className="logo">
             <Image src={yavir} alt="" style={{ height: "50px" }} />

@@ -10,7 +10,7 @@ export const request = async ({
   const response = await axios(`${baseUrl}${url}`, {
     method,
     data,
-    headers: { authorization: token ? `Bearer ${token}` : "" }
+    headers: { authorization: token ? `${token}` : "" }
   });
   return { data: response.data };
 };

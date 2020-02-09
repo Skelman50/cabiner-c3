@@ -30,3 +30,9 @@
     max-width: 65% !important;
   }
 }
+
+@media (max-height: 450px) {
+  .main-header {
+    display: none !important;
+  }
+}

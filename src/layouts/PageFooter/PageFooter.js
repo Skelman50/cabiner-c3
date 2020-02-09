@@ -22,7 +22,12 @@ const PageFooter = () => {
         </div>
         <div className="footer-images-content">
           <Image src={mastercard} alt="" className="pay-image" />
-          <Image src={visa} alt="" className="pay-image" />
+          <Image
+            src={visa}
+            alt=""
+            className="pay-image"
+            style={{ margin: "0 0.25em" }}
+          />
           <Image src={privat} alt="" className="pay-image" />
         </div>
       </div>
