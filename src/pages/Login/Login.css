@@ -1,1 +1,11 @@
+.login-card {
+  width: 100% !important;
+  padding: 1.5em !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+}
 
+.login-form {
+  width: 500px !important;
+}

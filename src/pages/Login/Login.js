@@ -123,8 +123,12 @@ const Login = () => {
   }
 
   return (
-    <Card style={{ width: "100%", padding: "1.5em" }}>
-      <Form onSubmit={handleSubmit} loading={loadingUser}>
+    <Card className="login-card">
+      <Form
+        onSubmit={handleSubmit}
+        loading={loadingUser}
+        className="login-form"
+      >
         <Form.Field>
           {error && <ErrorMessage error={error} />}
           {dbUser && !isPassword && !error && (
@@ -169,7 +173,7 @@ const Login = () => {
           <Button
             type="submit"
             basic
-            color="blue"
+            color="green"
             icon="send"
             style={{ width: "50%" }}
             disabled={loadingUser || phonenumber.length < 9}

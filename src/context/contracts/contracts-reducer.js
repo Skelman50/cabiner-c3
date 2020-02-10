@@ -1,7 +1,8 @@
 import {
   LOAD_CONTRACTS_SUCCESS,
   SET_LOADING_CONTRACTS,
-  LOAD_CONTRACTS_ERROR
+  LOAD_CONTRACTS_ERROR,
+  CLEAR_CONTRACTS
 } from "../types";
 
 const handlers = {
@@ -13,6 +14,9 @@ const handlers = {
     ...state,
     loadingContracts: payload,
     error: payload ? null : state.error
+  }),
+  [CLEAR_CONTRACTS]: (state, { payload }) => ({
+    ...payload
   }),
   [LOAD_CONTRACTS_ERROR]: (state, { payload }) => ({
     ...state,

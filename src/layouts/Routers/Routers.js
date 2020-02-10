@@ -6,7 +6,7 @@ import PageWrapper from "../PageWrapper/PageWrapper";
 import PageFooter from "../PageFooter/PageFooter";
 import { AuthContext } from "../../context/auth/auth-context";
 import { Segment } from "semantic-ui-react";
-import PrivateRoute from "../../components/shared/PrivateRoute/PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 import Login from "../../pages/Login/Login";
 
 const Routers = () => {

@@ -1,7 +1,11 @@
 import React, { useReducer, useCallback } from "react";
 import { request } from "../../utils/request";
 import { ContractsContext } from "./contracts-context";
-import { LOAD_CONTRACTS_SUCCESS, SET_LOADING_CONTRACTS } from "../types";
+import {
+  LOAD_CONTRACTS_SUCCESS,
+  SET_LOADING_CONTRACTS,
+  CLEAR_CONTRACTS
+} from "../types";
 import { contractsReducer } from "./contracts-reducer";
 
 const ContractsState = ({ children }) => {
@@ -15,6 +19,17 @@ const ContractsState = ({ children }) => {
   const setLoading = payload => {
     dispatch({ type: SET_LOADING_CONTRACTS, payload });
   };
+
+  const clearContracts = useCallback(() => {
+    dispatch({
+      type: CLEAR_CONTRACTS,
+      payload: {
+        contracts: [],
+        loadingContracts: false,
+        error: null
+      }
+    });
+  }, []);
 
   const loadContracts = useCallback(async data => {
     try {
@@ -40,7 +55,9 @@ const ContractsState = ({ children }) => {
   }, []);
 
   return (
-    <ContractsContext.Provider value={{ ...state, loadContracts }}>
+    <ContractsContext.Provider
+      value={{ ...state, loadContracts, clearContracts }}
+    >
       {children}
     </ContractsContext.Provider>
   );

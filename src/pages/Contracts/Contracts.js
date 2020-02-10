@@ -6,14 +6,19 @@ import { AuthContext } from "../../context/auth/auth-context";
 
 const Contracts = () => {
   const { currentUser } = useContext(AuthContext);
-  const { loadContracts, loadingContracts, contracts } = useContext(
-    ContractsContext
-  );
+  const {
+    loadContracts,
+    loadingContracts,
+    contracts,
+    clearContracts
+  } = useContext(ContractsContext);
   useEffect(() => {
     if (!currentUser) return;
-    console.log("load contracts");
     loadContracts({ Ref_Key: currentUser.Ref_Key });
-  }, [loadContracts, currentUser]);
+    return () => {
+      clearContracts();
+    };
+  }, [loadContracts, currentUser, clearContracts]);
   return (
     <Segment
       className="segment-no-border no-padding"
