@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseUrl = "http://192.168.1.104:4000/";
+import { domain } from "../config/config";
+const baseUrl = domain;
 
 export const request = async ({
   url,

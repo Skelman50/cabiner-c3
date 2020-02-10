@@ -44,13 +44,13 @@ const AUthState = ({ children }) => {
       setLoading(true);
       const response = await request({
         method: "POST",
-        url: "sendphone",
+        url: "api/auth",
         data
       });
-      if (response.data.response.dbUser && !response.data.response.Error) {
+      if (response.data.dbUser && !response.data.Error) {
         dispatch({
           type: SEND_PHONE_SUCCESS,
-          payload: response.data.response.dbUser
+          payload: response.data.dbUser
         });
       } else {
         dispatch({
@@ -72,13 +72,13 @@ const AUthState = ({ children }) => {
       setLoading(true);
       const response = await request({
         method: "POST",
-        url: "login",
+        url: "/api/auth/login",
         data
       });
-      if (response.data.response.passwordRes) {
+      if (response.data.passwordRes) {
         dispatch({
           type: LOGIN_SUCCESS,
-          payload: response.data.response.passwordRes
+          payload: response.data.passwordRes
         });
       } else {
         dispatch({
@@ -98,12 +98,12 @@ const AUthState = ({ children }) => {
       setLoading(true);
       const response = await request({
         method: "POST",
-        url: "getpin",
+        url: "api/getpin",
         data
       });
       dispatch({
         type: GET_PIN_SUCCESS,
-        payload: response.data.response
+        payload: response.data
       });
     } catch (error) {
       console.log(error);
@@ -117,11 +117,11 @@ const AUthState = ({ children }) => {
       setLoading(true);
       const response = await request({
         method: "POST",
-        url: "checkpin",
+        url: "api/getpin/check",
         data
       });
-      if (response.data.response.check) {
-        localStorage.setItem("auth", response.data.response.token);
+      if (response.data.check) {
+        localStorage.setItem("auth", response.data.token);
         await loadUser();
       } else {
         dispatch({ type: CHECK_PIN_ERROR, payload: "Ви ввели невірний PIN" });
@@ -135,8 +135,8 @@ const AUthState = ({ children }) => {
 
   const refreshToken = async () => {
     const token = localStorage.getItem("auth");
-    const response = await request({ url: "refreshtoken", token });
-    const newToken = response.data.response.newRefreshToken;
+    const response = await request({ url: "check/refresh", token });
+    const newToken = response.data.newRefreshToken;
     localStorage.setItem("auth", newToken);
     dispatch({ type: REFRESH_TOKEN, payload: newToken });
   };
@@ -145,17 +145,17 @@ const AUthState = ({ children }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("auth");
-      const response = await request({ token, url: "loaduser" });
-      if (!response.data.response) {
+      const response = await request({ token, url: "check/control" });
+      if (!response.data) {
         return logOut();
       }
-      if (response.data.response.Result && !response.data.response.Error) {
+      if (response.data.Result && !response.data.Error) {
         await refreshToken();
         dispatch({
           type: LOAD_USER_SUCCESS,
-          payload: response.data.response.Result
+          payload: response.data.Result
         });
-        setCurrentUser(response.data.response.Result[0]);
+        setCurrentUser(response.data.Result[0]);
       }
     } catch (error) {
       console.log(error.response ? error.response.data : error);

@@ -17,16 +17,12 @@ const ContractDropDown = ({ contract }) => {
     try {
       const response = await request({
         token,
-        url: "loadobjects",
+        url: "api/objects",
         method: "POST",
         data: { Ref_Key: contract.Ref_Key }
       });
-      if (
-        response.data.response &&
-        response.data.response.Result &&
-        !response.data.response.Error
-      ) {
-        setObjects(response.data.response.Result);
+      if (response.data && response.data.Result && !response.data.Error) {
+        setObjects(response.data.Result);
         setOpenModal(true);
       }
     } catch (error) {

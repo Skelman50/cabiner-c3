@@ -20,17 +20,16 @@ const ContractsState = ({ children }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("auth");
-      console.log(token);
       const response = await request({
         token,
-        url: "loadcontracts",
+        url: "api/contracts",
         method: "POST",
         data
       });
-      if (response.data.response && !response.data.response.Error) {
+      if (!response.data.Error) {
         dispatch({
           type: LOAD_CONTRACTS_SUCCESS,
-          payload: response.data.response
+          payload: response.data
         });
       }
     } catch (error) {

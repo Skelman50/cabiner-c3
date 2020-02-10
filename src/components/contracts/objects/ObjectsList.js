@@ -4,7 +4,6 @@ import { Modal, Header, List } from "semantic-ui-react";
 import "./ObjectsList.css";
 
 const ObjectItem = ({ object }) => {
-  console.log(object);
   return (
     <Fragment>
       <List
@@ -25,13 +24,15 @@ const ObjectItem = ({ object }) => {
             {object.address}
           </List.Content>
         </List.Item>
-        <List.Item>
-          <List.Content>
-            {" "}
-            <strong>Інспектор: </strong>
-            {object.inspectorName}
-          </List.Content>
-        </List.Item>
+        {object.inspectorName && (
+          <List.Item>
+            <List.Content>
+              {" "}
+              <strong>Інспектор: </strong>
+              {object.inspectorName}
+            </List.Content>
+          </List.Item>
+        )}
         <List.Item>
           <List.Content>
             {" "}
