@@ -12,11 +12,13 @@ import ContagentInfo from "../../components/shared/ContagentInfo/ContragentInfo"
 import DesktopNavigation from "../../navigation/DesktopNavigation/DesktopNavigation";
 import { AuthContext } from "../../context/auth/auth-context";
 import { useLocation } from "react-router-dom";
+import { ContractsContext } from "../../context/contracts/contracts-context";
 
 const PageLayout = () => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [isContragentMenu, setIsContagentMenu] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
+  const { loadingContracts } = useContext(ContractsContext);
   const location = useLocation();
   const handleCloseDrawer = () => {
     setDrawerIsOpen(false);
@@ -53,7 +55,11 @@ const PageLayout = () => {
 
           {isLoggedIn && (
             <Menu.Menu position="right" className="contragent-menu">
-              <ContragentsList handleClickModal={handleClickContragentMenu} />
+              <ContragentsList
+                handleClickModal={
+                  loadingContracts ? null : handleClickContragentMenu
+                }
+              />
               <ContagentInfo />
             </Menu.Menu>
           )}

@@ -1,15 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import "./ContragentsList.css";
 import { Segment } from "semantic-ui-react";
-import { ContractsContext } from "../../../context/contracts/contracts-context";
 
 const ContragentsList = ({ handleClickModal }) => {
-  const { loadingContracts } = useContext(ContractsContext);
   return (
     <Segment
-      disabled={loadingContracts}
-      loading={loadingContracts}
       onClick={handleClickModal}
       className="header-dropdown no-radius no-padding"
     >
