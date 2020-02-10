@@ -31,8 +31,8 @@
   }
 }
 
-@media (max-height: 450px) {
+/* @media (max-height: 450px) {
   .main-header {
     display: none !important;
   }
-}
+} */

@@ -1,14 +1,16 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { Form, Button, Card } from "semantic-ui-react";
 import { AuthContext } from "../../context/auth/auth-context";
+import useMediaQuery from "react-use-media-query-hook";
 
 import "./Login.css";
 import ErrorMessage from "../../components/shared/ErrorMessage/ErrorMessage";
 import InfoMessage from "../../components/shared/InfoMessage/InfoMessage";
-import InputField from "../../components/login/InputField/InputField";
+import InputField from "../../components/auth/InputField/InputField";
 import { Redirect } from "react-router-dom";
 
 const Login = () => {
+  const isMobile = useMediaQuery("(max-width: 550px)");
   const {
     dbUser,
     error,
@@ -169,17 +171,30 @@ const Login = () => {
             />
           )}
         </Form.Field>
-        <div style={{ width: "100%", display: "flex" }}>
+
+        {!isMobile && (
           <Button
             type="submit"
-            basic
-            color="green"
+            primary
             icon="send"
-            style={{ width: "50%" }}
             disabled={loadingUser || phonenumber.length < 9}
             content="Відіслати"
           />
-        </div>
+        )}
+
+        {isMobile && (
+          <div className="login-mobile-button__content">
+            <Button
+              className="login-mobile-button"
+              type="submit"
+              basic
+              color="blue"
+              icon="send"
+              disabled={loadingUser || phonenumber.length < 9}
+              content="Відіслати"
+            />
+          </div>
+        )}
       </Form>
     </Card>
   );

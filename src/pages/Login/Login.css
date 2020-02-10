@@ -9,3 +9,12 @@
 .login-form {
   width: 500px !important;
 }
+
+.login-mobile-button {
+  width: 90% !important;
+}
+
+.login-mobile-button__content {
+  display: flex;
+  justify-content: center;
+}

@@ -5,7 +5,7 @@
 
 @media (max-height: 450px) {
   .page-wrapper {
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
+    padding-top: 100px !important;
+    padding-bottom: 5px !important;
   }
 }

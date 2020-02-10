@@ -4,7 +4,9 @@ import { ContractsContext } from "./contracts-context";
 import {
   LOAD_CONTRACTS_SUCCESS,
   SET_LOADING_CONTRACTS,
-  CLEAR_CONTRACTS
+  CLEAR_CONTRACTS,
+  SET_CURRENT_CONTRACT,
+  SET_PAY_AMOUNT
 } from "../types";
 import { contractsReducer } from "./contracts-reducer";
 
@@ -12,12 +14,22 @@ const ContractsState = ({ children }) => {
   const initialState = {
     contracts: [],
     loadingContracts: false,
-    error: null
+    error: null,
+    currentContract: null,
+    payAmount: ""
   };
   const [state, dispatch] = useReducer(contractsReducer, initialState);
 
   const setLoading = payload => {
     dispatch({ type: SET_LOADING_CONTRACTS, payload });
+  };
+
+  const setPayAmount = payload => {
+    dispatch({ type: SET_PAY_AMOUNT, payload });
+  };
+
+  const setCurrentContract = contract => {
+    dispatch({ type: SET_CURRENT_CONTRACT, payload: contract });
   };
 
   const clearContracts = useCallback(() => {
@@ -56,7 +68,13 @@ const ContractsState = ({ children }) => {
 
   return (
     <ContractsContext.Provider
-      value={{ ...state, loadContracts, clearContracts }}
+      value={{
+        ...state,
+        loadContracts,
+        clearContracts,
+        setCurrentContract,
+        setPayAmount
+      }}
     >
       {children}
     </ContractsContext.Provider>

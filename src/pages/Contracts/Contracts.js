@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react";
-import CardItem from "../../containers/contracts/CardItem";
+import React, { useContext, useEffect, useState } from "react";
 import { Segment } from "semantic-ui-react";
 import { ContractsContext } from "../../context/contracts/contracts-context";
 import { AuthContext } from "../../context/auth/auth-context";
+import CardItem from "../../components/contracts/CardItem";
+import { Redirect } from "react-router-dom";
 
 const Contracts = () => {
   const { currentUser } = useContext(AuthContext);
@@ -10,8 +11,11 @@ const Contracts = () => {
     loadContracts,
     loadingContracts,
     contracts,
-    clearContracts
+    clearContracts,
+    setCurrentContract
   } = useContext(ContractsContext);
+  const [isPaymentClicked, setIsPaymentClicked] = useState(false);
+
   useEffect(() => {
     if (!currentUser) return;
     loadContracts({ Ref_Key: currentUser.Ref_Key });
@@ -19,6 +23,16 @@ const Contracts = () => {
       clearContracts();
     };
   }, [loadContracts, currentUser, clearContracts]);
+
+  const handleClickPaymentButton = contract => {
+    setCurrentContract(contract);
+    setIsPaymentClicked(true);
+  };
+
+  if (isPaymentClicked) {
+    return <Redirect to="/payments" />;
+  }
+
   return (
     <Segment
       className="segment-no-border no-padding"
@@ -27,7 +41,11 @@ const Contracts = () => {
     >
       {contracts &&
         contracts.map(contract => (
-          <CardItem key={contract.Ref_Key} contract={contract} />
+          <CardItem
+            key={contract.Ref_Key}
+            contract={contract}
+            handleClickPaymentButton={handleClickPaymentButton}
+          />
         ))}
     </Segment>
   );

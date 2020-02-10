@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Button } from "semantic-ui-react";
 import useMediaQuery from "react-use-media-query-hook";
 
-const ContractCardAction = () => {
+const ContractCardAction = ({ onClick }) => {
   const isMobile = useMediaQuery("(max-width: 550px)");
   return (
     <Card.Content extra>
@@ -14,7 +14,7 @@ const ContractCardAction = () => {
         </div>
       )}
       {!isMobile && (
-        <div className="pay-button-content">
+        <div className="pay-button-content" onClick={onClick}>
           <Button color="green" className="pay-button">
             Сплатити{" "}
           </Button>

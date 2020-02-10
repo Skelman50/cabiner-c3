@@ -8,9 +8,13 @@ import { AuthContext } from "../../context/auth/auth-context";
 import { Segment } from "semantic-ui-react";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../../pages/Login/Login";
+import Payments from "../../pages/Payments/Payments";
+import Liqpay from "../../pages/Liqpay/Liqpay";
+import Privat from "../../pages/Privat/Privat";
 
 const Routers = () => {
   const { loadUser, isUserLoaded } = useContext(AuthContext);
+
   useEffect(() => {
     loadUser();
   }, [loadUser]);
@@ -31,8 +35,11 @@ const Routers = () => {
             path="/settings"
             component={() => <div>settings</div>}
           />
+          <PrivateRoute path="/payments" exact component={Payments} />
+          <PrivateRoute path="/payments/liqpay" component={Liqpay} />
+          <PrivateRoute path="/payments/privat" component={Privat} />
           <Route path="/login" component={Login} />
-          <Redirect to="/contracts" />
+          <Redirect to="/" />
         </Switch>
       </PageWrapper>
       <PageFooter />

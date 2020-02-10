@@ -2,7 +2,9 @@ import {
   LOAD_CONTRACTS_SUCCESS,
   SET_LOADING_CONTRACTS,
   LOAD_CONTRACTS_ERROR,
-  CLEAR_CONTRACTS
+  CLEAR_CONTRACTS,
+  SET_CURRENT_CONTRACT,
+  SET_PAY_AMOUNT
 } from "../types";
 
 const handlers = {
@@ -16,7 +18,16 @@ const handlers = {
     error: payload ? null : state.error
   }),
   [CLEAR_CONTRACTS]: (state, { payload }) => ({
+    ...state,
     ...payload
+  }),
+  [SET_CURRENT_CONTRACT]: (state, { payload }) => ({
+    ...state,
+    currentContract: payload
+  }),
+  [SET_PAY_AMOUNT]: (state, { payload }) => ({
+    ...state,
+    payAmount: payload
   }),
   [LOAD_CONTRACTS_ERROR]: (state, { payload }) => ({
     ...state,

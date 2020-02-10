@@ -72,7 +72,7 @@ const AUthState = ({ children }) => {
       setLoading(true);
       const response = await request({
         method: "POST",
-        url: "/api/auth/login",
+        url: "api/auth/login",
         data
       });
       if (response.data.passwordRes) {
@@ -121,7 +121,7 @@ const AUthState = ({ children }) => {
         data
       });
       if (response.data.check) {
-        localStorage.setItem("auth", response.data.token);
+        localStorage.setItem("auth", response.data.refreshToken);
         await loadUser();
       } else {
         dispatch({ type: CHECK_PIN_ERROR, payload: "Ви ввели невірний PIN" });
@@ -153,7 +153,10 @@ const AUthState = ({ children }) => {
         await refreshToken();
         dispatch({
           type: LOAD_USER_SUCCESS,
-          payload: response.data.Result
+          payload: response.data.Result.map(item => ({
+            ...item,
+            phone: response.data.phone
+          }))
         });
         setCurrentUser(response.data.Result[0]);
       }
