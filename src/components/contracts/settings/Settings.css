@@ -1,0 +1,9 @@
+.checkbox-group-name {
+  margin-bottom: 0.8em;
+}
+
+@media (max-width: 550px) {
+  .checkbox-group-name {
+    font-size: 0.7em;
+  }
+}

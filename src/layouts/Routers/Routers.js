@@ -14,11 +14,18 @@ import Privat from "../../pages/Privat/Privat";
 import CheckOut from "../../pages/CheckOut/CheckOut";
 
 const Routers = () => {
-  const { loadUser, isUserLoaded } = useContext(AuthContext);
+  const { loadUser, isUserLoaded, refreshToken } = useContext(AuthContext);
 
   useEffect(() => {
     loadUser();
   }, [loadUser]);
+
+  useEffect(() => {
+    setInterval(() => {
+      refreshToken();
+    }, 60000 * 15);
+  }, [refreshToken]);
+
   if (!isUserLoaded) {
     return <Segment loading style={{ height: "100vh" }} />;
   }

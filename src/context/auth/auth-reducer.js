@@ -10,7 +10,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   GET_PIN_SUCCESS,
-  CHECK_PIN_ERROR
+  CHECK_PIN_ERROR,
+  LOAD_USER_SETTINGS
 } from "../types";
 import { initialStateAuth } from "./auth-state";
 
@@ -73,6 +74,10 @@ const handlers = {
   [SET_CURRENT_USER]: (state, { payload }) => ({
     ...state,
     currentUser: payload
+  }),
+  [LOAD_USER_SETTINGS]: (state, { payload }) => ({
+    ...state,
+    isTelegram: payload
   }),
   [LOG_OUT]: () => ({
     ...initialStateAuth,

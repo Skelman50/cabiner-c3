@@ -6,6 +6,7 @@ import { AuthContext } from "../../../context/auth/auth-context";
 
 const DropDownMenu = ({ handleClose }) => {
   const { users, setCurrentUser } = useContext(AuthContext);
+
   return (
     <Card className="dropdown-menu-custom" style={{ width: "auto" }}>
       <List className="contragents-list">

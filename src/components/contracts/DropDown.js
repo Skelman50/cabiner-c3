@@ -1,74 +1,112 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import { Dropdown, Segment } from "semantic-ui-react";
 import ObjectsList from "./objects/ObjectsList";
-import { request } from "../../utils/request";
 import { AuthContext } from "../../context/auth/auth-context";
+import { domain } from "../../config/config";
+import { useFetch } from "../../hooks/useFetch";
+import ErrorMessage from "../shared/ErrorMessage/ErrorMessage";
+import ContractSettings from "./settings/Settings";
 
 const ContractDropDown = ({ contract }) => {
-  const [loading, setLoading] = useState(false);
-  const [objects, setObjects] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModalObjects, setOpenModalObjects] = useState(false);
+  const [openModalSettings, setOpenModalSettings] = useState(false);
+  const [objectResponse, doFetchObjects] = useFetch();
+  const [settingsResponse, doFetchSettings] = useFetch();
   const { token } = useContext(AuthContext);
 
-  const closeModal = () => setOpenModal(false);
-  const fetchObjects = async () => {
-    setLoading(true);
-    const token = localStorage.getItem("auth");
-    try {
-      const response = await request({
-        token,
-        url: "api/objects",
-        method: "POST",
-        data: { Ref_Key: contract.Ref_Key }
-      });
-      if (response.data && response.data.Result && !response.data.Error) {
-        setObjects(response.data.Result);
-        setOpenModal(true);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+  const closeModalObjects = () => setOpenModalObjects(false);
+  const closeModalSettings = () => setOpenModalSettings(false);
+
+  const fetchObjects = () => {
+    doFetchObjects({
+      token,
+      url: "api/objects",
+      method: "POST",
+      data: { Ref_Key: contract.Ref_Key }
+    });
   };
+
+  const fetchSettings = () => {
+    doFetchSettings({
+      token,
+      url: "api/settings/contractsetting",
+      method: "POST",
+      data: { refKey: contract.Ref_Key }
+    });
+  };
+
+  useEffect(() => {
+    if (!objectResponse.response) return;
+    setOpenModalObjects(true);
+  }, [objectResponse.response]);
+
+  useEffect(() => {
+    if (!settingsResponse.response) return;
+    setOpenModalSettings(true);
+  }, [settingsResponse.response]);
+
   const param = token.replace("Bearer ", "");
   return (
-    <Segment as="div" floated="right" className="segment-no-border no-padding">
-      <Dropdown text="Опції" loading={loading} disabled={loading}>
-        <Dropdown.Menu style={{ left: "-125px" }}>
-          <Dropdown.Item text="Налаштування" icon="setting" />
-          <Dropdown.Item
-            text="Переглянуты об'єкти"
-            icon="building"
-            onClick={fetchObjects}
-          />
-          <Dropdown.Item
-            text="Угоди"
-            icon="file pdf"
-            onClick={() => {
-              window.open(
-                `https://cab.yavir2000.com/yavir2000/file/getbill/${contract.Ref_Key}?&&param=${param}`
-              );
-            }}
-          />
-          <Dropdown.Item
-            text="Акти"
-            icon="file pdf"
-            onClick={() => {
-              window.open(
-                `https://cab.yavir2000.com/yavir2000/file/getact/${contract.Ref_Key}?&&param=${param}`
-              );
-            }}
-          />
-        </Dropdown.Menu>
-      </Dropdown>
-      <ObjectsList
-        open={openModal}
-        onClose={closeModal}
-        objects={objects}
-        contractNumber={contract.number}
-      />
-    </Segment>
+    <Fragment>
+      {(objectResponse.error || settingsResponse.error) && (
+        <ErrorMessage
+          error={"Помилка завантаження об'єктів охорони. Спробуйте ще раз!"}
+        />
+      )}
+      <Segment
+        as="div"
+        floated="right"
+        className="segment-no-border no-padding"
+      >
+        <Dropdown
+          text="Опції"
+          loading={objectResponse.isLoading || settingsResponse.isLoading}
+          disabled={objectResponse.isLoading || settingsResponse.isLoading}
+        >
+          <Dropdown.Menu style={{ left: "-125px" }}>
+            <Dropdown.Item
+              text="Налаштування"
+              icon="setting"
+              onClick={fetchSettings}
+            />
+            <Dropdown.Item
+              text="Переглянуты об'єкти"
+              icon="building"
+              onClick={fetchObjects}
+            />
+            <Dropdown.Item
+              text="Угоди"
+              icon="file pdf"
+              onClick={() => {
+                window.open(
+                  `${domain}file/getbill/${contract.Ref_Key}?&&param=${param}`
+                );
+              }}
+            />
+            <Dropdown.Item
+              text="Акти"
+              icon="file pdf"
+              onClick={() => {
+                window.open(
+                  `${domain}file/getact/${contract.Ref_Key}?&&param=${param}`
+                );
+              }}
+            />
+          </Dropdown.Menu>
+        </Dropdown>
+        <ObjectsList
+          open={openModalObjects}
+          onClose={closeModalObjects}
+          objects={objectResponse.response && objectResponse.response.Result}
+          contractNumber={contract.number}
+        />
+        <ContractSettings
+          open={openModalSettings}
+          onClose={closeModalSettings}
+          contract={contract}
+        />
+      </Segment>
+    </Fragment>
   );
 };
 

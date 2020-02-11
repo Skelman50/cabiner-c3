@@ -12,7 +12,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   GET_PIN_SUCCESS,
-  CHECK_PIN_ERROR
+  CHECK_PIN_ERROR,
+  LOAD_USER_SETTINGS
 } from "../types";
 import { request } from "../../utils/request";
 
@@ -29,7 +30,8 @@ export const initialStateAuth = {
   isPassword: null,
   pinStatus: null,
   pinTimeout: null,
-  pinType: null
+  pinType: null,
+  isTelegram: null
 };
 
 const AUthState = ({ children }) => {
@@ -133,13 +135,30 @@ const AUthState = ({ children }) => {
     }
   };
 
-  const refreshToken = async () => {
+  const getContragentSettings = useCallback(async (data, token) => {
+    try {
+      const response = await request({
+        method: "POST",
+        token: token,
+        url: "api/settings",
+        data
+      });
+      dispatch({
+        type: LOAD_USER_SETTINGS,
+        payload: response.data.isTelegramAkk
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const refreshToken = useCallback(async () => {
     const token = localStorage.getItem("auth");
     const response = await request({ url: "check/refresh", token });
     const newToken = response.data.newRefreshToken;
     localStorage.setItem("auth", newToken);
     dispatch({ type: REFRESH_TOKEN, payload: newToken });
-  };
+  }, []);
 
   const loadUser = useCallback(async () => {
     try {
@@ -168,7 +187,7 @@ const AUthState = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [refreshToken]);
 
   const setCurrentUser = payload => {
     dispatch({ type: SET_CURRENT_USER, payload });
@@ -189,7 +208,9 @@ const AUthState = ({ children }) => {
         sendPhone,
         login,
         getPin,
-        checkPin
+        getContragentSettings,
+        checkPin,
+        refreshToken
       }}
     >
       {children}

@@ -49,18 +49,19 @@ const ObjectItem = ({ object }) => {
 
 const ObjectsList = ({ open, objects, onClose, contractNumber }) => {
   return (
-    <Modal open={open} onClose={onClose} closeIcon>
+    <Modal open={open} onClose={onClose} closeIcon closeOnDimmerClick={false}>
       <Header
         icon="building"
         content={`Об'єкти по угоді ${contractNumber}:`}
-        className="contracts-objects__list-header"
+        className="modal-header"
       />
-      <Modal.Content>
-        {objects.map(object => (
-          <Fragment key={object.Ref_Key}>
-            <ObjectItem object={object} />
-          </Fragment>
-        ))}
+      <Modal.Content scrolling>
+        {objects &&
+          objects.map(object => (
+            <Fragment key={object.Ref_Key}>
+              <ObjectItem object={object} />
+            </Fragment>
+          ))}
       </Modal.Content>
     </Modal>
   );

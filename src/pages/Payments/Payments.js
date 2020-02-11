@@ -22,9 +22,10 @@ const Payments = props => {
         </Card.Meta>
       </Card.Content>
       <Card.Content extra>
-        <div className="ui two buttons">
+        <div className="ui two buttons two-button-content">
           <Button
             basic
+            className="button"
             color="green"
             onClick={() => props.history.push("/payments/liqpay")}
           >
@@ -33,6 +34,7 @@ const Payments = props => {
           </Button>
           <Button
             basic
+            className="button"
             color="blue"
             content="Інші способи"
             icon="list ol"

@@ -1,4 +1,10 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, {
+  useState,
+  useContext,
+  useCallback,
+  useEffect,
+  useRef
+} from "react";
 import useMediaQuery from "react-use-media-query-hook";
 import { Segment, Menu, Image, Icon } from "semantic-ui-react";
 import yavir from "../../assets/images/yavir.png";
@@ -17,9 +23,20 @@ import { ContractsContext } from "../../context/contracts/contracts-context";
 const PageLayout = () => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
   const [isContragentMenu, setIsContagentMenu] = useState(false);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, currentUser, getContragentSettings, token } = useContext(
+    AuthContext
+  );
   const { loadingContracts } = useContext(ContractsContext);
   const location = useLocation();
+
+  const currentUserRef = useRef(null);
+
+  useEffect(() => {
+    if (currentUserRef.current || !currentUser) return;
+    currentUserRef.current = currentUser;
+    getContragentSettings(currentUser, token);
+  }, [getContragentSettings, currentUser, token]);
+
   const handleCloseDrawer = () => {
     setDrawerIsOpen(false);
   };
