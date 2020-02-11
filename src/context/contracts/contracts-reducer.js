@@ -4,7 +4,8 @@ import {
   LOAD_CONTRACTS_ERROR,
   CLEAR_CONTRACTS,
   SET_CURRENT_CONTRACT,
-  SET_PAY_AMOUNT
+  SET_PAY_AMOUNT,
+  CREATE_CHECKOUT_DATA
 } from "../types";
 
 const handlers = {
@@ -32,6 +33,11 @@ const handlers = {
   [LOAD_CONTRACTS_ERROR]: (state, { payload }) => ({
     ...state,
     error: payload
+  }),
+  [CREATE_CHECKOUT_DATA]: (state, { payload }) => ({
+    ...state,
+    checkoutData: payload,
+    error: null
   }),
   DEFAULT: state => state
 };

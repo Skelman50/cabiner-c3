@@ -9,7 +9,7 @@ const ContragentsList = ({ handleClickModal }) => {
       onClick={handleClickModal}
       className="header-dropdown no-radius no-padding"
     >
-      <span>
+      <span style={{ fontWeight: "bold" }}>
         <i aria-hidden={"true"} className="users icon" />
         Контрагенти
       </span>

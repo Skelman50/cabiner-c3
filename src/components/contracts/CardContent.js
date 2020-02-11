@@ -7,7 +7,7 @@ const ContractsCardContent = ({ contract, children }) => {
       return (
         <div style={{ color: "green" }}>
           <span>Переплата по угоді</span>{" "}
-          <strong> {contract.summa} грн.</strong>
+          <strong> {contract.summa.replace("-", "")} грн.</strong>
         </div>
       );
     } else {

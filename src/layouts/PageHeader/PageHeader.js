@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import useMediaQuery from "react-use-media-query-hook";
 import { Segment, Menu, Image, Icon } from "semantic-ui-react";
 import yavir from "../../assets/images/yavir.png";
@@ -27,9 +27,9 @@ const PageLayout = () => {
     setIsContagentMenu(prevState => !prevState);
   };
 
-  const handleCloseContragentMenu = () => {
+  const handleCloseContragentMenu = useCallback(() => {
     setIsContagentMenu(false);
-  };
+  }, []);
 
   const isMobile = useMediaQuery("(max-width: 800px)");
   const ismaxHeight = useMediaQuery("(max-height: 450px)");

@@ -158,7 +158,10 @@ const AUthState = ({ children }) => {
             phone: response.data.phone
           }))
         });
-        setCurrentUser(response.data.Result[0]);
+        setCurrentUser({
+          ...response.data.Result[0],
+          phone: response.data.phone
+        });
       }
     } catch (error) {
       console.log(error.response ? error.response.data : error);

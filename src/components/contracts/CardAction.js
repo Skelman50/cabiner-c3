@@ -8,7 +8,7 @@ const ContractCardAction = ({ onClick }) => {
     <Card.Content extra>
       {isMobile && (
         <div className="ui two buttons">
-          <Button color="green" basic>
+          <Button color="green" basic onClick={onClick}>
             Сплатити{" "}
           </Button>
         </div>

@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from "react";
+import React, { useReducer, useCallback, useContext } from "react";
 import { request } from "../../utils/request";
 import { ContractsContext } from "./contracts-context";
 import {
@@ -6,9 +6,12 @@ import {
   SET_LOADING_CONTRACTS,
   CLEAR_CONTRACTS,
   SET_CURRENT_CONTRACT,
-  SET_PAY_AMOUNT
+  SET_PAY_AMOUNT,
+  CREATE_CHECKOUT_DATA,
+  LOAD_CONTRACTS_ERROR
 } from "../types";
 import { contractsReducer } from "./contracts-reducer";
+import { AuthContext } from "../auth/auth-context";
 
 const ContractsState = ({ children }) => {
   const initialState = {
@@ -16,17 +19,19 @@ const ContractsState = ({ children }) => {
     loadingContracts: false,
     error: null,
     currentContract: null,
-    payAmount: ""
+    payAmount: "",
+    checkoutData: null
   };
   const [state, dispatch] = useReducer(contractsReducer, initialState);
+  const { currentUser, token } = useContext(AuthContext);
 
   const setLoading = payload => {
     dispatch({ type: SET_LOADING_CONTRACTS, payload });
   };
 
-  const setPayAmount = payload => {
+  const setPayAmount = useCallback(payload => {
     dispatch({ type: SET_PAY_AMOUNT, payload });
-  };
+  }, []);
 
   const setCurrentContract = contract => {
     dispatch({ type: SET_CURRENT_CONTRACT, payload: contract });
@@ -41,6 +46,47 @@ const ContractsState = ({ children }) => {
         error: null
       }
     });
+  }, []);
+
+  const createCheckOut = async () => {
+    const data = {
+      Ref_Key: state.currentContract.Ref_Key,
+      Organization_Ref_Key: state.currentContract.Organization_Ref_Key,
+      contragentKey: currentUser.Ref_Key,
+      contragentName: currentUser.fullname,
+      number: state.currentContract.number,
+      amount: state.payAmount
+    };
+    setLoading(true);
+    try {
+      const response = await request({
+        url: `api/liqpay/createSignature/${currentUser.phone}`,
+        data,
+        method: "POST",
+        token: token
+      });
+      if (!response.data.error) {
+        createSignature(response.data);
+      } else {
+        dispatch({
+          type: LOAD_CONTRACTS_ERROR,
+          payload:
+            "Не вдалося створити платіж. Сума не може бути 0 або меншою за нуль!"
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const setError = useCallback(payload => {
+    dispatch({ type: LOAD_CONTRACTS_ERROR, payload });
+  }, []);
+
+  const createSignature = useCallback(payload => {
+    dispatch({ type: CREATE_CHECKOUT_DATA, payload });
   }, []);
 
   const loadContracts = useCallback(async data => {
@@ -73,7 +119,10 @@ const ContractsState = ({ children }) => {
         loadContracts,
         clearContracts,
         setCurrentContract,
-        setPayAmount
+        setPayAmount,
+        createCheckOut,
+        createSignature,
+        setError
       }}
     >
       {children}

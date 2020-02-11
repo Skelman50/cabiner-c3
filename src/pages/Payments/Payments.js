@@ -17,7 +17,9 @@ const Payments = props => {
       <Card.Content>
         <Card.Header>{`Оплата по угоді ${currentContract.number}`}</Card.Header>
         <PaymentCardDescription currentContract={currentContract} />
-        <Card.Meta>Оберіть тип оплати</Card.Meta>
+        <Card.Meta style={{ color: "black", marginTop: "0.2em" }}>
+          Оберіть тип оплати
+        </Card.Meta>
       </Card.Content>
       <Card.Content extra>
         <div className="ui two buttons">

@@ -11,6 +11,7 @@ import Login from "../../pages/Login/Login";
 import Payments from "../../pages/Payments/Payments";
 import Liqpay from "../../pages/Liqpay/Liqpay";
 import Privat from "../../pages/Privat/Privat";
+import CheckOut from "../../pages/CheckOut/CheckOut";
 
 const Routers = () => {
   const { loadUser, isUserLoaded } = useContext(AuthContext);
@@ -36,8 +37,13 @@ const Routers = () => {
             component={() => <div>settings</div>}
           />
           <PrivateRoute path="/payments" exact component={Payments} />
-          <PrivateRoute path="/payments/liqpay" component={Liqpay} />
-          <PrivateRoute path="/payments/privat" component={Privat} />
+          <PrivateRoute path="/payments/liqpay" exact component={Liqpay} />
+          <PrivateRoute
+            path="/payments/liqpay/checkout"
+            exact
+            component={CheckOut}
+          />
+          <PrivateRoute path="/payments/privat" exact component={Privat} />
           <Route path="/login" component={Login} />
           <Redirect to="/" />
         </Switch>

@@ -6,7 +6,7 @@ const ContagentInfo = () => {
   const { currentUser, users } = useContext(AuthContext);
   return (
     <div className="contragent-info-wrapper">
-      <span className="center-text">
+      <span className="center-text contragent-name">
         {currentUser ? currentUser.fullname : users[0].fullname}
       </span>
     </div>

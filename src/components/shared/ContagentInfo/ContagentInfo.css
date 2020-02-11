@@ -7,8 +7,16 @@
   overflow-y: auto;
 }
 
+.contragent-name {
+  font-size: 1.2em !important;
+}
+
 @media (max-width: 550px) {
-  .contragent-info-wrapper {
+  /* .contragent-info-wrapper {
     font-size: 0.7em;
+  } */
+
+  .contragent-name {
+    font-size: 1em !important;
   }
 }
