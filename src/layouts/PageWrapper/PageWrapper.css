@@ -7,4 +7,7 @@
   .page-wrapper {
     padding-bottom: 0px !important;
   }
+  .page-wrapper.login {
+    padding-top: 10px !important;
+  }
 }

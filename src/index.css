@@ -35,6 +35,10 @@
   text-align: center !important;
 }
 
+.icon-back:hover {
+  cursor: pointer !important;
+}
+
 @media (max-width: 550px) {
   .modal-header .content {
     font-size: 0.75em !important;

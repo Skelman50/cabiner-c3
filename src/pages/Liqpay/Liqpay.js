@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
-import { Card, Form, Button, Segment } from "semantic-ui-react";
+import { Card, Form, Button, Segment, Icon } from "semantic-ui-react";
+import useMediaQuery from "react-use-media-query-hook";
 import useRedirect from "../../hooks/useRedirect";
 import { ContractsContext } from "../../context/contracts/contracts-context";
 import { Redirect } from "react-router-dom";
@@ -18,6 +19,8 @@ const Liqpay = props => {
     error,
     setError
   } = useContext(ContractsContext);
+
+  const isMobile = useMediaQuery("(max-width: 550px)");
 
   const [isCheckOut, setIsCheckOut] = useState(false);
 
@@ -47,7 +50,6 @@ const Liqpay = props => {
   }
 
   if (isCheckOut) {
-    console.log(checkoutData);
     return <Redirect to="/payments/liqpay/checkout" />;
   }
 
@@ -55,6 +57,13 @@ const Liqpay = props => {
     <Card fluid>
       {error && <ErrorMessage error={error} />}
       <Card.Content>
+        {isMobile && (
+          <Icon
+            name="backward"
+            style={{ marginBottom: "1em" }}
+            onClick={() => props.history.push("/payments")}
+          />
+        )}
         <Card.Header>{`Оплата по угоді ${currentContract.number}`}</Card.Header>
         <PaymentCardDescription currentContract={currentContract} />
       </Card.Content>
@@ -85,14 +94,16 @@ const Liqpay = props => {
                 disabled={!payAmount || payAmount <= 0}
               />
 
-              <Button
-                as="div"
-                basic
-                color="red"
-                content="Назад"
-                icon="cancel"
-                onClick={() => props.history.push("/payments")}
-              />
+              {!isMobile && (
+                <Button
+                  as="div"
+                  basic
+                  color="red"
+                  content="Назад"
+                  icon="cancel"
+                  onClick={() => props.history.push("/payments")}
+                />
+              )}
             </div>
           </Segment>
         </Form>
