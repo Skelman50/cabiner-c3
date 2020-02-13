@@ -7,9 +7,9 @@
 }
 
 .footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
 }
 
 .pay-image {
@@ -17,28 +17,33 @@
 }
 
 .footer-images-content {
-  display: flex;
+  display: flex !important;
 }
 
 .footer-info-content:hover {
-  cursor: pointer;
+  cursor: pointer !important;
+}
+
+.footer-info-content {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: white !important;
 }
 
 .footer-info-content.top {
-  margin-bottom: 2.5px;
+  margin-bottom: 2.5px !important;
 }
 
 .footer-info-content.bottom {
-  margin-top: 2.5px;
+  margin-top: 2.5px !important;
 }
 
 @media (max-width: 550px) {
   .pay-image {
-    height: 20px;
+    height: 20px !important;
   }
 
   .footer-info-content {
-    font-size: 0.8em;
+    font-size: 0.8em !important;
   }
 
   .main-footer {

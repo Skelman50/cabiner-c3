@@ -10,7 +10,6 @@ import { AuthContext } from "../../context/auth/auth-context";
 import useMediaQuery from "react-use-media-query-hook";
 
 import "./Login.css";
-import ErrorMessage from "../../components/shared/ErrorMessage/ErrorMessage";
 import InfoMessage from "../../components/shared/InfoMessage/InfoMessage";
 import { Redirect } from "react-router-dom";
 import { pinMessage } from "../../utils/pin-messages";
@@ -28,6 +27,7 @@ const Login = () => {
     pinType,
     pinTimeout,
     getPin,
+    setAuthError,
     checkPin
   } = useContext(AuthContext);
   const [phonenumber, setPhonenumber] = useState("+380");
@@ -94,20 +94,23 @@ const Login = () => {
     e.preventDefault();
     if (!dbUser) {
       sendPhone({ phonenumber });
-    } else if (!isPassword && !isForgotPassword) {
+    } else if (!isPassword && !isForgotPassword && !isSendPinForForgot) {
       login({
         phoneNumber: phonenumber,
         password
       });
     } else if (isForgotPassword && !isPassword) {
       setIsSendPinForForgot(true);
-      getPin({ phoneToPin: phonenumber.replace("+", "") });
+      setIsForgotPassword(false);
     } else {
-      checkPin({
-        phonenumber: phonenumber.replace("+", ""),
-        pin,
-        isLogIn: true
-      });
+      checkPin(
+        {
+          phonenumber: phonenumber.replace("+", ""),
+          pin,
+          isLogIn: true
+        },
+        { isForgotPassword: isSendPinForForgot, password }
+      );
     }
   };
 
@@ -121,33 +124,27 @@ const Login = () => {
       loading={loadingUser}
       style={{ maxWidth: "700px", margin: "2em auto" }}
     >
-      {error && <ErrorMessage error={error} />}
-
-      {!error && !dbUser && !isPassword && !error && (
+      {!dbUser && !isPassword && (
         <InfoMessage text={"Введіть свій верифікований номер телефону!"} />
       )}
-      {!error && dbUser && !isPassword && !isForgotPassword && !error && (
+      {dbUser && !isPassword && !isForgotPassword && !isSendPinForForgot && (
         <InfoMessage text={"Введіть свій пароль!"} />
       )}
-      {!error && dbUser && !isPassword && isForgotPassword && !error && (
+      {dbUser && !isPassword && isForgotPassword && !isSendPinForForgot && (
         <InfoMessage text={"Введіть новий пароль та підтвердіть його!"} />
       )}
-      {!error &&
-        (isPassword || isSendPinForForgot) &&
-        timer !== 0 &&
-        !error && (
-          <InfoMessage text={pinMessage({ pinStatus, pinType, timer })} />
-        )}
-      {!error && pinStatus === "No Send" && error && timer !== 0 && (
+      {(isPassword || isSendPinForForgot) && (
         <InfoMessage text={pinMessage({ pinStatus, pinType, timer })} />
       )}
 
       <Segment>
         {!dbUser && (
           <Form.Input
+            error={error}
             placeholder="Телефон"
             fluid
             icon="phone"
+            autoFocus
             name="phone"
             label="Телефон"
             iconPosition="left"
@@ -155,11 +152,13 @@ const Login = () => {
             onChange={handleChangePhoneInput}
           />
         )}
-        {dbUser && !isPassword && (
+        {dbUser && !isPassword && !isSendPinForForgot && (
           <Fragment>
             <Form.Input
               fluid
+              error={error}
               type="password"
+              autoFocus
               placeholder="Пароль"
               value={password}
               label="Пароль"
@@ -170,7 +169,10 @@ const Login = () => {
             {!isForgotPassword && (
               <div
                 className="login-helper-text"
-                onClick={() => setIsForgotPassword(true)}
+                onClick={() => {
+                  setAuthError(null);
+                  setIsForgotPassword(true);
+                }}
               >
                 Забули пароль?
               </div>
@@ -185,9 +187,10 @@ const Login = () => {
             )}
           </Fragment>
         )}
-        {dbUser && !isPassword && isForgotPassword && (
+        {dbUser && !isPassword && isForgotPassword && !isSendPinForForgot && (
           <Form.Input
             fluid
+            error={error}
             type="password"
             placeholder="Підтвердіть пароль"
             value={confirmPassword}
@@ -201,7 +204,9 @@ const Login = () => {
           <Fragment>
             <Form.Input
               fluid
+              error={error}
               type="number"
+              autoFocus
               placeholder="PIN"
               value={pin}
               label="PIN"

@@ -11,7 +11,9 @@ import {
   LOGIN_ERROR,
   GET_PIN_SUCCESS,
   CHECK_PIN_ERROR,
-  LOAD_USER_SETTINGS
+  LOAD_USER_SETTINGS,
+  SET_AUTH_ERROR,
+  RESET_PASSWORD
 } from "../types";
 import { initialStateAuth } from "./auth-state";
 
@@ -29,6 +31,7 @@ const handlers = {
     dbUser: payload,
     error: null
   }),
+
   [LOGIN_SUCCESS]: (state, { payload }) => ({
     ...state,
     isPassword: payload,
@@ -38,11 +41,19 @@ const handlers = {
     ...state,
     error: payload
   }),
+  [RESET_PASSWORD]: (state, { payload }) => ({
+    ...state,
+    isPasswordReset: payload
+  }),
   [CHECK_PIN_ERROR]: (state, { payload }) => ({
     ...state,
     error: payload
   }),
   [SEND_PHONE_ERROR]: (state, { payload }) => ({
+    ...state,
+    error: payload
+  }),
+  [SET_AUTH_ERROR]: (state, { payload }) => ({
     ...state,
     error: payload
   }),

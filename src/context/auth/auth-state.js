@@ -13,7 +13,9 @@ import {
   LOGIN_ERROR,
   GET_PIN_SUCCESS,
   CHECK_PIN_ERROR,
-  LOAD_USER_SETTINGS
+  LOAD_USER_SETTINGS,
+  SET_AUTH_ERROR,
+  RESET_PASSWORD
 } from "../types";
 import { request } from "../../utils/request";
 
@@ -31,7 +33,8 @@ export const initialStateAuth = {
   pinStatus: null,
   pinTimeout: null,
   pinType: null,
-  isTelegram: null
+  isTelegram: null,
+  isPasswordReset: false
 };
 
 const AUthState = ({ children }) => {
@@ -114,7 +117,7 @@ const AUthState = ({ children }) => {
     }
   }, []);
 
-  const checkPin = async data => {
+  const checkPin = async (data, dataForRegister) => {
     try {
       setLoading(true);
       const response = await request({
@@ -123,8 +126,23 @@ const AUthState = ({ children }) => {
         data
       });
       if (response.data.check) {
-        localStorage.setItem("auth", response.data.refreshToken);
-        await loadUser();
+        if (!dataForRegister.isForgotPassword) {
+          localStorage.setItem("auth", response.data.refreshToken);
+          await loadUser();
+        } else {
+          const result = await registerUser({
+            password: dataForRegister.password,
+            isForgotPassword: "forgot",
+            phonenumber: `+${data.phonenumber}`
+          });
+          if (result.data.save) {
+            localStorage.setItem("auth", response.data.refreshToken);
+            await loadUser();
+            setIsPasswordReset(true);
+          } else {
+            setAuthError("Не вдалося змінити пароль, спробуйте ще раз!");
+          }
+        }
       } else {
         dispatch({ type: CHECK_PIN_ERROR, payload: "Ви ввели невірний PIN" });
       }
@@ -133,6 +151,14 @@ const AUthState = ({ children }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const setIsPasswordReset = payload => {
+    dispatch({ type: RESET_PASSWORD, payload });
+  };
+
+  const registerUser = async data => {
+    return await request({ data, url: "api/auth/register", method: "POST" });
   };
 
   const getContragentSettings = useCallback(async (data, token) => {
@@ -159,6 +185,10 @@ const AUthState = ({ children }) => {
     localStorage.setItem("auth", newToken);
     dispatch({ type: REFRESH_TOKEN, payload: newToken });
   }, []);
+
+  const setAuthError = payload => {
+    dispatch({ type: SET_AUTH_ERROR, payload });
+  };
 
   const loadUser = useCallback(async () => {
     try {
@@ -210,7 +240,9 @@ const AUthState = ({ children }) => {
         getPin,
         getContragentSettings,
         checkPin,
-        refreshToken
+        refreshToken,
+        setAuthError,
+        setIsPasswordReset
       }}
     >
       {children}
