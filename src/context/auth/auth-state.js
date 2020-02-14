@@ -252,7 +252,7 @@ const AUthState = ({ children }) => {
 
   const logOut = () => {
     localStorage.removeItem("auth");
-    dispatch({ type: LOG_OUT });
+    dispatch({ type: LOG_OUT, payload: initialStateAuth });
   };
 
   return (

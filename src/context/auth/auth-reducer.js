@@ -16,7 +16,6 @@ import {
   RESET_PASSWORD,
   REGISTER_USER
 } from "../types";
-import { initialStateAuth } from "./auth-state";
 
 const handlers = {
   [LOAD_USER_SUCCESS]: (state, { payload }) => ({
@@ -95,8 +94,8 @@ const handlers = {
     ...state,
     isTelegram: payload
   }),
-  [LOG_OUT]: () => ({
-    ...initialStateAuth,
+  [LOG_OUT]: (state, { payload }) => ({
+    ...payload,
     isUserLoaded: true
   }),
   DEFAULT: state => state

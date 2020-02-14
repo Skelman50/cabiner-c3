@@ -32,10 +32,13 @@ const PageLayout = () => {
   const currentUserRef = useRef(null);
 
   useEffect(() => {
+    if (isLoggedIn) {
+      getContragentSettings(currentUser, token);
+    }
     if (currentUserRef.current || !currentUser) return;
     currentUserRef.current = currentUser;
     getContragentSettings(currentUser, token);
-  }, [getContragentSettings, currentUser, token]);
+  }, [getContragentSettings, currentUser, token, isLoggedIn]);
 
   const handleCloseDrawer = () => {
     setDrawerIsOpen(false);
