@@ -13,7 +13,8 @@ import {
   CHECK_PIN_ERROR,
   LOAD_USER_SETTINGS,
   SET_AUTH_ERROR,
-  RESET_PASSWORD
+  RESET_PASSWORD,
+  REGISTER_USER
 } from "../types";
 import { initialStateAuth } from "./auth-state";
 
@@ -85,6 +86,10 @@ const handlers = {
   [SET_CURRENT_USER]: (state, { payload }) => ({
     ...state,
     currentUser: payload
+  }),
+  [REGISTER_USER]: (state, { payload }) => ({
+    ...state,
+    isUserRegister: payload
   }),
   [LOAD_USER_SETTINGS]: (state, { payload }) => ({
     ...state,

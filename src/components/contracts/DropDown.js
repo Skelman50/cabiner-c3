@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect, Fragment } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  Fragment,
+  useCallback
+} from "react";
 import { Dropdown, Segment } from "semantic-ui-react";
 import ObjectsList from "./objects/ObjectsList";
 import { AuthContext } from "../../context/auth/auth-context";
@@ -7,7 +13,7 @@ import { useFetch } from "../../hooks/useFetch";
 import ErrorMessage from "../shared/ErrorMessage/ErrorMessage";
 import ContractSettings from "./settings/Settings";
 
-const ContractDropDown = ({ contract }) => {
+const ContractDropDown = ({ contract, setUpdated }) => {
   const [openModalObjects, setOpenModalObjects] = useState(false);
   const [openModalSettings, setOpenModalSettings] = useState(false);
   const [objectResponse, doFetchObjects] = useFetch();
@@ -15,7 +21,9 @@ const ContractDropDown = ({ contract }) => {
   const { token } = useContext(AuthContext);
 
   const closeModalObjects = () => setOpenModalObjects(false);
-  const closeModalSettings = () => setOpenModalSettings(false);
+  const closeModalSettings = useCallback(() => {
+    setOpenModalSettings(false);
+  }, []);
 
   const fetchObjects = () => {
     doFetchObjects({
@@ -104,6 +112,8 @@ const ContractDropDown = ({ contract }) => {
           open={openModalSettings}
           onClose={closeModalSettings}
           contract={contract}
+          data={settingsResponse && settingsResponse.response}
+          setUpdated={setUpdated}
         />
       </Segment>
     </Fragment>

@@ -15,7 +15,8 @@ import {
   CHECK_PIN_ERROR,
   LOAD_USER_SETTINGS,
   SET_AUTH_ERROR,
-  RESET_PASSWORD
+  RESET_PASSWORD,
+  REGISTER_USER
 } from "../types";
 import { request } from "../../utils/request";
 
@@ -52,11 +53,18 @@ const AUthState = ({ children }) => {
         url: "api/auth",
         data
       });
-      if (response.data.dbUser && !response.data.Error) {
-        dispatch({
-          type: SEND_PHONE_SUCCESS,
-          payload: response.data.dbUser
-        });
+      if (!response.data.Error) {
+        if (response.data.dbUser) {
+          dispatch({
+            type: SEND_PHONE_SUCCESS,
+            payload: "yes"
+          });
+        } else {
+          dispatch({
+            type: SEND_PHONE_SUCCESS,
+            payload: "no"
+          });
+        }
       } else {
         dispatch({
           type: SEND_PHONE_ERROR,
@@ -126,10 +134,10 @@ const AUthState = ({ children }) => {
         data
       });
       if (response.data.check) {
-        if (!dataForRegister.isForgotPassword) {
+        if (!dataForRegister.isForgotPassword && !dataForRegister.isRegister) {
           localStorage.setItem("auth", response.data.refreshToken);
           await loadUser();
-        } else {
+        } else if (dataForRegister.isForgotPassword) {
           const result = await registerUser({
             password: dataForRegister.password,
             isForgotPassword: "forgot",
@@ -141,6 +149,21 @@ const AUthState = ({ children }) => {
             setIsPasswordReset(true);
           } else {
             setAuthError("Не вдалося змінити пароль, спробуйте ще раз!");
+          }
+        } else if (dataForRegister.isRegister) {
+          const result = await registerUser({
+            password: dataForRegister.password,
+            isForgotPassword: null,
+            phonenumber: `+${data.phonenumber}`
+          });
+          if (result.data.save) {
+            localStorage.setItem("auth", response.data.refreshToken);
+            await loadUser();
+            setIsUserRegister(true);
+          } else {
+            setAuthError(
+              "Не вдалося зареєструвати користоувача, спробуйте ще раз!"
+            );
           }
         }
       } else {
@@ -155,6 +178,10 @@ const AUthState = ({ children }) => {
 
   const setIsPasswordReset = payload => {
     dispatch({ type: RESET_PASSWORD, payload });
+  };
+
+  const setIsUserRegister = payload => {
+    dispatch({ type: REGISTER_USER, payload });
   };
 
   const registerUser = async data => {
@@ -242,7 +269,8 @@ const AUthState = ({ children }) => {
         checkPin,
         refreshToken,
         setAuthError,
-        setIsPasswordReset
+        setIsPasswordReset,
+        setIsUserRegister
       }}
     >
       {children}

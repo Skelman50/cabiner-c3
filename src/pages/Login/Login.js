@@ -94,11 +94,18 @@ const Login = () => {
     e.preventDefault();
     if (!dbUser) {
       sendPhone({ phonenumber });
-    } else if (!isPassword && !isForgotPassword && !isSendPinForForgot) {
+    } else if (
+      dbUser === "yes" &&
+      !isPassword &&
+      !isForgotPassword &&
+      !isSendPinForForgot
+    ) {
       login({
         phoneNumber: phonenumber,
         password
       });
+    } else if (dbUser === "no" && !pinStatus) {
+      getPin({ phoneToPin: phonenumber.replace("+", "") });
     } else if (isForgotPassword && !isPassword) {
       setIsSendPinForForgot(true);
       setIsForgotPassword(false);
@@ -109,7 +116,11 @@ const Login = () => {
           pin,
           isLogIn: true
         },
-        { isForgotPassword: isSendPinForForgot, password }
+        {
+          isForgotPassword: isSendPinForForgot,
+          isRegister: dbUser === "no",
+          password
+        }
       );
     }
   };
@@ -127,13 +138,28 @@ const Login = () => {
       {!dbUser && !isPassword && (
         <InfoMessage text={"Введіть свій верифікований номер телефону!"} />
       )}
-      {dbUser && !isPassword && !isForgotPassword && !isSendPinForForgot && (
-        <InfoMessage text={"Введіть свій пароль!"} />
-      )}
-      {dbUser && !isPassword && isForgotPassword && !isSendPinForForgot && (
-        <InfoMessage text={"Введіть новий пароль та підтвердіть його!"} />
-      )}
-      {(isPassword || isSendPinForForgot) && (
+      {dbUser === "yes" &&
+        !isPassword &&
+        !isForgotPassword &&
+        !isSendPinForForgot && <InfoMessage text={"Введіть свій пароль!"} />}
+      {dbUser === "no" &&
+        !isPassword &&
+        !pinStatus &&
+        !isForgotPassword &&
+        !isSendPinForForgot && (
+          <InfoMessage
+            text={
+              "Це ваш перший вхід в систему. Придумайте пароль та підтвердіть його."
+            }
+          />
+        )}
+      {dbUser === "yes" &&
+        !isPassword &&
+        isForgotPassword &&
+        !isSendPinForForgot && (
+          <InfoMessage text={"Введіть новий пароль та підтвердіть його!"} />
+        )}
+      {(isPassword || isSendPinForForgot || (dbUser === "no" && pinStatus)) && (
         <InfoMessage text={pinMessage({ pinStatus, pinType, timer })} />
       )}
 
@@ -152,7 +178,7 @@ const Login = () => {
             onChange={handleChangePhoneInput}
           />
         )}
-        {dbUser && !isPassword && !isSendPinForForgot && (
+        {dbUser && !isPassword && !isSendPinForForgot && !pinStatus && (
           <Fragment>
             <Form.Input
               fluid
@@ -166,7 +192,7 @@ const Login = () => {
               icon="lock"
               onChange={e => setPassword(e.target.value)}
             />
-            {!isForgotPassword && (
+            {!isForgotPassword && dbUser !== "no" && (
               <div
                 className="login-helper-text"
                 onClick={() => {
@@ -177,7 +203,7 @@ const Login = () => {
                 Забули пароль?
               </div>
             )}
-            {isForgotPassword && (
+            {isForgotPassword && dbUser !== "no" && (
               <div
                 className="login-helper-text"
                 onClick={() => setIsForgotPassword(false)}
@@ -187,20 +213,42 @@ const Login = () => {
             )}
           </Fragment>
         )}
-        {dbUser && !isPassword && isForgotPassword && !isSendPinForForgot && (
-          <Form.Input
-            fluid
-            error={error}
-            type="password"
-            placeholder="Підтвердіть пароль"
-            value={confirmPassword}
-            label="Підтвердження пароля"
-            iconPosition="left"
-            icon="lock"
-            onChange={e => setConfirmPassword(e.target.value)}
-          />
-        )}
-        {(isPassword || isSendPinForForgot) && (
+        {dbUser === "yes" &&
+          !isPassword &&
+          isForgotPassword &&
+          !pinStatus &&
+          !isSendPinForForgot && (
+            <Form.Input
+              fluid
+              error={error}
+              type="password"
+              placeholder="Підтвердіть пароль"
+              value={confirmPassword}
+              label="Підтвердження пароля"
+              iconPosition="left"
+              icon="lock"
+              onChange={e => setConfirmPassword(e.target.value)}
+            />
+          )}
+        {dbUser === "no" &&
+          !isPassword &&
+          !isSendPinForForgot &&
+          !pinStatus && (
+            <Form.Input
+              fluid
+              error={error}
+              type="password"
+              placeholder="Підтвердіть пароль"
+              value={confirmPassword}
+              label="Підтвердження пароля"
+              iconPosition="left"
+              icon="lock"
+              onChange={e => setConfirmPassword(e.target.value)}
+            />
+          )}
+        {(isPassword ||
+          isSendPinForForgot ||
+          (dbUser === "no" && pinStatus)) && (
           <Fragment>
             <Form.Input
               fluid

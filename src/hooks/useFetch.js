@@ -20,7 +20,7 @@ export const useFetch = url => {
   useEffect(() => {
     let isDestroy = false;
     if (!isLoading) return;
-    request(options)
+    request({ ...options, token })
       .then(response => {
         if (!response.data.Error || !response.data.error) {
           if (!isDestroy) {
