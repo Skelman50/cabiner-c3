@@ -7,6 +7,8 @@ import { Redirect } from "react-router-dom";
 import PaymentCardDescription from "../../components/shared/PaymentCardDescription/PaymentCardDescription";
 import ErrorMessage from "../../components/shared/ErrorMessage/ErrorMessage";
 
+import "./Liqpay.css";
+
 const Liqpay = props => {
   const redirect = useRedirect();
   const {
@@ -23,13 +25,6 @@ const Liqpay = props => {
   const isMobile = useMediaQuery("(max-width: 550px)");
 
   const [isCheckOut, setIsCheckOut] = useState(false);
-
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    if (!inputRef || !inputRef.current) return;
-    inputRef.current.focus();
-  }, []);
 
   useEffect(() => {
     setError(null);
@@ -64,17 +59,20 @@ const Liqpay = props => {
             onClick={() => props.history.push("/payments")}
           />
         )}
-        <Card.Header>{`Оплата по угоді ${currentContract.number}`}</Card.Header>
+        <Card.Header className="center-text">{`Оплата по угоді ${currentContract.number}`}</Card.Header>
         <PaymentCardDescription currentContract={currentContract} />
       </Card.Content>
       <Card.Content extra>
         <Form onSubmit={createCheckOut}>
           <Form.Field>
-            <label>Введіть суму</label>
-            <input
+            <Form.Input
+              icon="credit card"
+              iconPosition="left"
+              className="center-text"
+              label="Введіть суму"
               placeholder="Введіть суму в грн"
+              autoFocus
               type="number"
-              ref={inputRef}
               value={payAmount}
               onChange={e => setPayAmount(e.target.value)}
             />

@@ -32,14 +32,16 @@ const CheckOut = () => {
   return (
     <Card fluid>
       <Card.Content>
-        <Card.Header style={{ color: "red" }}>
+        <Card.Header style={{ color: "red" }} className="center-text">
           Підтвердження оплати!
         </Card.Header>
         <Card.Header
+          className="center-text"
           style={{ margin: "0.2em 0" }}
         >{`Угода ${currentContract.number}.`}</Card.Header>
         <PaymentCardDescription currentContract={currentContract} />
         <Card.Meta
+          className="center-text"
           style={{ color: "black", fontWeight: "bold", marginTop: "0.2em" }}
         >{`Сума до сплати ${amount.toFixed(2)} грн.`}</Card.Meta>
       </Card.Content>

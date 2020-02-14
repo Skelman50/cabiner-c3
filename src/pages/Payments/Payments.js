@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { Card, Button, Icon } from "semantic-ui-react";
+import { Card, Button, Icon, Popup } from "semantic-ui-react";
 import useRedirect from "../../hooks/useRedirect";
 import { Redirect } from "react-router-dom";
 import { ContractsContext } from "../../context/contracts/contracts-context";
@@ -15,16 +15,24 @@ const Payments = props => {
   return (
     <Card fluid>
       <Card.Content>
-        <Icon
-          name="backward"
-          className="icon-back"
-          style={{ marginBottom: "1em" }}
-          onClick={() => props.history.push("/")}
+        <Popup
+          content="Повернутися до угод"
+          trigger={
+            <Icon
+              name="backward"
+              className="icon-back"
+              style={{ marginBottom: "1em" }}
+              onClick={() => props.history.push("/")}
+            />
+          }
         />
 
-        <Card.Header>{`Оплата по угоді ${currentContract.number}`}</Card.Header>
+        <Card.Header className="center-text">{`Оплата по угоді ${currentContract.number}`}</Card.Header>
         <PaymentCardDescription currentContract={currentContract} />
-        <Card.Meta style={{ color: "black", marginTop: "0.2em" }}>
+        <Card.Meta
+          style={{ color: "black", marginTop: "0.2em" }}
+          className="center-text"
+        >
           Оберіть тип оплати
         </Card.Meta>
       </Card.Content>
