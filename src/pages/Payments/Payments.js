@@ -19,7 +19,7 @@ const Payments = props => {
           content="Повернутися до угод"
           trigger={
             <Icon
-              name="backward"
+              name="arrow left"
               className="icon-back"
               style={{ marginBottom: "1em" }}
               onClick={() => props.history.push("/")}

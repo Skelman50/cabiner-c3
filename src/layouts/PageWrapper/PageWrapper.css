@@ -1,6 +1,13 @@
 .page-wrapper {
+  max-width: 800px !important;
   padding-top: 115px !important;
   padding-bottom: 100px !important;
+}
+
+@media (max-width: 550px) {
+  .page-wrapper {
+    padding-bottom: 65px !important;
+  }
 }
 
 @media (max-height: 450px) {

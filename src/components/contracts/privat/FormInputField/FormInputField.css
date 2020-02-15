@@ -1,0 +1,30 @@
+.privat-input-content {
+  display: flex !important;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.privat-input-label {
+  font-weight: 700;
+}
+
+.privat-input {
+  color: black;
+  width: 95% !important;
+  border-bottom: 0.5px dotted black !important;
+}
+
+.copy-icon:hover {
+  cursor: pointer !important;
+}
+
+@media (max-width: 550px) {
+  .privat-input {
+    font-size: 0.55em !important;
+  }
+
+  .privat-input-label {
+    font-size: 0.55em !important;
+  }
+}

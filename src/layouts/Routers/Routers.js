@@ -12,6 +12,7 @@ import Payments from "../../pages/Payments/Payments";
 import Liqpay from "../../pages/Liqpay/Liqpay";
 import Privat from "../../pages/Privat/Privat";
 import CheckOut from "../../pages/CheckOut/CheckOut";
+import Archives from "../../pages/Archives/Archives";
 
 const Routers = () => {
   const { loadUser, isUserLoaded, refreshToken } = useContext(AuthContext);
@@ -35,10 +36,7 @@ const Routers = () => {
       <PageWrapper>
         <Switch>
           <PrivateRoute path="/" exact component={Contracts} />
-          <PrivateRoute
-            path="/archives"
-            component={() => <div>sadasdasd</div>}
-          />
+          <PrivateRoute path="/archives" component={Archives} />
           <PrivateRoute
             path="/settings"
             component={() => <div>settings</div>}

@@ -33,7 +33,10 @@ const PageLayout = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      getContragentSettings(currentUser, token);
+      if (currentUser) {
+        getContragentSettings(currentUser, token);
+        return;
+      }
     }
     if (currentUserRef.current || !currentUser) return;
     currentUserRef.current = currentUser;

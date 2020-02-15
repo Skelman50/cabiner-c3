@@ -1,6 +1,6 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
-import { Card, Form, Button, Segment, Icon } from "semantic-ui-react";
-import useMediaQuery from "react-use-media-query-hook";
+import React, { useContext, useEffect, useState } from "react";
+import { Card, Form, Button, Segment, Icon, Popup } from "semantic-ui-react";
+// import useMediaQuery from "react-use-media-query-hook";
 import useRedirect from "../../hooks/useRedirect";
 import { ContractsContext } from "../../context/contracts/contracts-context";
 import { Redirect } from "react-router-dom";
@@ -22,7 +22,7 @@ const Liqpay = props => {
     setError
   } = useContext(ContractsContext);
 
-  const isMobile = useMediaQuery("(max-width: 550px)");
+  // const isMobile = useMediaQuery("(max-width: 550px)");
 
   const [isCheckOut, setIsCheckOut] = useState(false);
 
@@ -52,13 +52,23 @@ const Liqpay = props => {
     <Card fluid>
       {error && <ErrorMessage error={error} />}
       <Card.Content>
-        {isMobile && (
+        {/* {isMobile && (
           <Icon
-            name="backward"
+            name="arrow left"
             style={{ marginBottom: "1em" }}
             onClick={() => props.history.push("/payments")}
           />
-        )}
+        )} */}
+        <Popup
+          content="Повернутися до вибору способи оплати"
+          trigger={
+            <Icon
+              className="icon-back"
+              name="arrow left"
+              onClick={() => props.history.push("/payments")}
+            />
+          }
+        />
         <Card.Header className="center-text">{`Оплата по угоді ${currentContract.number}`}</Card.Header>
         <PaymentCardDescription currentContract={currentContract} />
       </Card.Content>
@@ -68,8 +78,7 @@ const Liqpay = props => {
             <Form.Input
               icon="credit card"
               iconPosition="left"
-              className="center-text"
-              label="Введіть суму"
+              label="Введіть суму в грн"
               placeholder="Введіть суму в грн"
               autoFocus
               type="number"
@@ -82,17 +91,15 @@ const Liqpay = props => {
             disabled={loadingContracts}
             loading={loadingContracts}
           >
-            <div className="ui two buttons">
-              <Button
-                type="submit"
-                basic
-                color="green"
-                content="Сплатити"
-                icon="check"
-                disabled={!payAmount || payAmount <= 0}
-              />
+            <Button
+              type="submit"
+              primary
+              content="Сплатити"
+              icon="check"
+              disabled={!payAmount || payAmount <= 0}
+            />
 
-              {!isMobile && (
+            {/* {!isMobile && (
                 <Button
                   as="div"
                   basic
@@ -101,8 +108,7 @@ const Liqpay = props => {
                   icon="cancel"
                   onClick={() => props.history.push("/payments")}
                 />
-              )}
-            </div>
+              )} */}
           </Segment>
         </Form>
       </Card.Content>

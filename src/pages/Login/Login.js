@@ -13,6 +13,8 @@ import "./Login.css";
 import InfoMessage from "../../components/shared/InfoMessage/InfoMessage";
 import { Redirect } from "react-router-dom";
 import { pinMessage } from "../../utils/pin-messages";
+import ReactInputMask from "react-input-mask";
+import { filterPhone } from "../../utils/filter-phone";
 
 const Login = () => {
   const {
@@ -30,7 +32,7 @@ const Login = () => {
     setAuthError,
     checkPin
   } = useContext(AuthContext);
-  const [phonenumber, setPhonenumber] = useState("+380");
+  const [phonenumber, setPhonenumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [pin, setPin] = useState("");
@@ -50,12 +52,14 @@ const Login = () => {
 
   useEffect(() => {
     if (!isPassword) return;
-    getPin({ phoneToPin: phonenumber.replace("+", "") });
+    const filteredPhone = filterPhone(phonenumber);
+    getPin({ phoneToPin: filteredPhone.replace("+", "") });
   }, [isPassword, phonenumber, getPin]);
 
   useEffect(() => {
     if (!isSendPinForForgot) return;
-    getPin({ phoneToPin: phonenumber.replace("+", "") });
+    const filteredPhone = filterPhone(phonenumber);
+    getPin({ phoneToPin: filteredPhone.replace("+", "") });
   }, [isSendPinForForgot, phonenumber, getPin]);
 
   useEffect(() => {
@@ -81,19 +85,14 @@ const Login = () => {
   }, [timer]);
 
   const handleChangePhoneInput = e => {
-    if (
-      isNaN(+e.target.value) ||
-      e.target.value.length > 13 ||
-      e.target.value.length < 4
-    )
-      return;
     setPhonenumber(e.target.value);
   };
 
   const handleSubmit = e => {
+    const filteredPhone = filterPhone(phonenumber);
     e.preventDefault();
     if (!dbUser) {
-      sendPhone({ phonenumber });
+      sendPhone({ phonenumber: filteredPhone });
     } else if (
       dbUser === "yes" &&
       !isPassword &&
@@ -101,18 +100,18 @@ const Login = () => {
       !isSendPinForForgot
     ) {
       login({
-        phoneNumber: phonenumber,
+        phoneNumber: filteredPhone,
         password
       });
     } else if (dbUser === "no" && !pinStatus) {
-      getPin({ phoneToPin: phonenumber.replace("+", "") });
+      getPin({ phoneToPin: filteredPhone.replace("+", "") });
     } else if (isForgotPassword && !isPassword) {
       setIsSendPinForForgot(true);
       setIsForgotPassword(false);
     } else {
       checkPin(
         {
-          phonenumber: phonenumber.replace("+", ""),
+          phonenumber: filteredPhone.replace("+", ""),
           pin,
           isLogIn: true
         },
@@ -133,7 +132,7 @@ const Login = () => {
     <Form
       onSubmit={handleSubmit}
       loading={loadingUser}
-      style={{ maxWidth: "700px", margin: "2em auto" }}
+      style={{ maxWidth: "500px", margin: "2em auto" }}
     >
       {!dbUser && !isPassword && (
         <InfoMessage text={"Введіть свій верифікований номер телефону!"} />
@@ -165,19 +164,28 @@ const Login = () => {
 
       <Segment>
         {!dbUser && (
-          <Form.Input
-            error={error}
-            placeholder="Телефон"
-            fluid
-            icon="phone"
-            autoFocus
-            name="phone"
-            label="Телефон"
-            iconPosition="left"
+          <ReactInputMask
+            mask="+380 (99) 9999999"
             value={phonenumber}
             onChange={handleChangePhoneInput}
-          />
+          >
+            {inputProps => (
+              <Form.Input
+                error={error}
+                placeholder="Телефон"
+                fluid
+                icon="phone"
+                autoFocus
+                name="phone"
+                type="tel"
+                label="Телефон"
+                iconPosition="left"
+                {...inputProps}
+              />
+            )}
+          </ReactInputMask>
         )}
+
         {dbUser && !isPassword && !isSendPinForForgot && !pinStatus && (
           <Fragment>
             <Form.Input
@@ -250,28 +258,34 @@ const Login = () => {
           isSendPinForForgot ||
           (dbUser === "no" && pinStatus)) && (
           <Fragment>
-            <Form.Input
-              fluid
-              error={error}
-              type="number"
-              autoFocus
-              placeholder="PIN"
+            <ReactInputMask
+              mask="9999"
               value={pin}
-              label="PIN"
-              iconPosition="left"
-              icon="certificate"
+              maskChar="*"
               onChange={e => setPin(e.target.value)}
-            />
-            {timer === 0 && (
-              <div
-                className="login-helper-text"
-                onClick={() =>
-                  getPin({ phoneToPin: phonenumber.replace("+", "") })
-                }
-              >
-                Отримати знову
-              </div>
-            )}
+            >
+              {inputProps => (
+                <Form.Input
+                  fluid
+                  {...inputProps}
+                  error={error}
+                  autoFocus
+                  placeholder="PIN"
+                  label="PIN"
+                  iconPosition="left"
+                  icon="certificate"
+                />
+              )}
+            </ReactInputMask>
+            <div
+              className="login-helper-text"
+              onClick={() => {
+                const filteredPhone = filterPhone(phonenumber);
+                getPin({ phoneToPin: filteredPhone.replace("+", "") });
+              }}
+            >
+              Отримати знову
+            </div>
           </Fragment>
         )}
         <Button

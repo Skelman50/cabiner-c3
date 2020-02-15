@@ -1,0 +1,25 @@
+.privat-content {
+  padding: 1em;
+}
+
+.privat-helper-text-content {
+  display: flex !important;
+  align-items: center !important;
+}
+
+@media (max-width: 500px) {
+  .privat-payment-header {
+    font-size: 0.75em !important;
+  }
+  .privat-content {
+    padding-top: 0;
+  }
+
+  .privat-copy_to_buffer-info_text {
+    font-size: 0.5em !important;
+  }
+
+  .privat-helper-text-content {
+    font-size: 0.65em !important;
+  }
+}
