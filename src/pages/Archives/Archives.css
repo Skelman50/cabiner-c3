@@ -1,0 +1,5 @@
+@media (max-width: 550px) {
+  .archives-nav {
+    font-size: 0.75em !important;
+  }
+}

@@ -1,0 +1,10 @@
+.bills-card-content {
+  padding: 0 1em 1em;
+  display: flex;
+}
+
+/* @media (max-width: 550px) {
+  .bills-card-content {
+    justify-content: space-around;
+  }
+} */

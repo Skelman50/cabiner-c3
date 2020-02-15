@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Card, Message } from "semantic-ui-react";
-import ContractsCardContent from "./CardContent";
 import ContractDropDown from "./DropDown";
 import ContractCardAction from "./CardAction";
+import ContractContent from "../shared/ContractContent/ContractContent";
 
 const CardItem = ({ contract, handleClickPaymentButton }) => {
   const [updated, setUpdated] = useState(false);
@@ -19,9 +19,9 @@ const CardItem = ({ contract, handleClickPaymentButton }) => {
           </Message>
         </Card.Header>
       )}
-      <ContractsCardContent contract={contract}>
+      <ContractContent contract={contract}>
         <ContractDropDown contract={contract} setUpdated={setUpdated} />
-      </ContractsCardContent>
+      </ContractContent>
       {contract.isliqpay && <ContractCardAction onClick={handleClick} />}
     </Card>
   );

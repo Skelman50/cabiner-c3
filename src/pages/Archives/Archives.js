@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Menu } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
-const Archives = props => {
-  useEffect(() => {
-    if (props.location.pathname === "/archives") {
-      props.history.push("/archives/bills");
-    }
-  }, [props.location.pathname, props.history]);
+import "./Archives.css";
 
+const Archives = () => {
   return (
     <Menu tabular>
       <Menu.Item
@@ -16,12 +12,14 @@ const Archives = props => {
         as={NavLink}
         to="/archives/bills"
         icon="money bill alternate"
+        className="archives-nav"
       />
       <Menu.Item
         name="Акти та рахунки"
         as={NavLink}
         to="/archives/acts"
         icon="list"
+        className="archives-nav"
       />
     </Menu>
   );

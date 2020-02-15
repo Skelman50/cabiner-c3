@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "semantic-ui-react";
 
-const ContractsCardContent = ({ contract, children }) => {
+const ContractContent = ({ contract, children }) => {
   const text = () => {
     if (contract.summa.includes("-")) {
       return (
@@ -40,4 +40,4 @@ const ContractsCardContent = ({ contract, children }) => {
   );
 };
 
-export default ContractsCardContent;
+export default ContractContent;
