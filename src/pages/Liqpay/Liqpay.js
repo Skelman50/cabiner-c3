@@ -52,13 +52,6 @@ const Liqpay = props => {
     <Card fluid>
       {error && <ErrorMessage error={error} />}
       <Card.Content>
-        {/* {isMobile && (
-          <Icon
-            name="arrow left"
-            style={{ marginBottom: "1em" }}
-            onClick={() => props.history.push("/payments")}
-          />
-        )} */}
         <Popup
           content="Повернутися до вибору способи оплати"
           trigger={
@@ -98,17 +91,6 @@ const Liqpay = props => {
               icon="check"
               disabled={!payAmount || payAmount <= 0}
             />
-
-            {/* {!isMobile && (
-                <Button
-                  as="div"
-                  basic
-                  color="red"
-                  content="Назад"
-                  icon="cancel"
-                  onClick={() => props.history.push("/payments")}
-                />
-              )} */}
           </Segment>
         </Form>
       </Card.Content>

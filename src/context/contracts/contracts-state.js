@@ -23,7 +23,7 @@ const ContractsState = ({ children }) => {
     checkoutData: null
   };
   const [state, dispatch] = useReducer(contractsReducer, initialState);
-  const { currentUser, token } = useContext(AuthContext);
+  const { currentUser, token, logOut } = useContext(AuthContext);
 
   const setLoading = payload => {
     dispatch({ type: SET_LOADING_CONTRACTS, payload });
@@ -75,7 +75,7 @@ const ContractsState = ({ children }) => {
         });
       }
     } catch (error) {
-      console.log(error);
+      logOut();
     } finally {
       setLoading(false);
     }
@@ -89,28 +89,31 @@ const ContractsState = ({ children }) => {
     dispatch({ type: CREATE_CHECKOUT_DATA, payload });
   }, []);
 
-  const loadContracts = useCallback(async data => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("auth");
-      const response = await request({
-        token,
-        url: "api/contracts",
-        method: "POST",
-        data
-      });
-      if (!response.data.Error) {
-        dispatch({
-          type: LOAD_CONTRACTS_SUCCESS,
-          payload: response.data
+  const loadContracts = useCallback(
+    async data => {
+      try {
+        setLoading(true);
+        const token = localStorage.getItem("auth");
+        const response = await request({
+          token,
+          url: "api/contracts",
+          method: "POST",
+          data
         });
+        if (!response.data.Error) {
+          dispatch({
+            type: LOAD_CONTRACTS_SUCCESS,
+            payload: response.data
+          });
+        }
+      } catch (error) {
+        logOut();
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log(error.response ? error.response.data : error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    [logOut]
+  );
 
   return (
     <ContractsContext.Provider

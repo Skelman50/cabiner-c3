@@ -10,7 +10,7 @@ export const useFetch = url => {
   const [error, setError] = useState(null);
   const [options, setOptions] = useState({});
 
-  const { token } = useContext(AuthContext);
+  const { token, logOut } = useContext(AuthContext);
 
   const doFetch = useCallback(options => {
     setOptions(options);
@@ -34,15 +34,19 @@ export const useFetch = url => {
       })
       .catch(error => {
         if (!isDestroy) {
-          setError(true);
+          logOut();
         }
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        if (!isDestroy) {
+          setIsLoading(false);
+        }
+      });
 
     return () => {
       isDestroy = true;
     };
-  }, [isLoading, options, url, baseUrl, token]);
+  }, [isLoading, options, url, baseUrl, token, logOut]);
 
   return [{ isLoading, response, error }, doFetch];
 };

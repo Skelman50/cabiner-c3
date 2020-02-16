@@ -38,7 +38,7 @@ const SideDrawer = ({ show, onClick }) => {
                 name="Архіви"
                 icon="archive"
                 as={NavLink}
-                to="/archives/bills"
+                to="/archives"
               />
               <Menu.Item
                 name="Налаштування"

@@ -45,6 +45,11 @@ const AUthState = ({ children }) => {
     dispatch({ type: SET_LOADING_USER, payload });
   };
 
+  const logOut = useCallback(() => {
+    localStorage.removeItem("auth");
+    dispatch({ type: LOG_OUT, payload: initialStateAuth });
+  }, []);
+
   const sendPhone = async data => {
     try {
       setLoading(true);
@@ -188,30 +193,37 @@ const AUthState = ({ children }) => {
     return await request({ data, url: "api/auth/register", method: "POST" });
   };
 
-  const getContragentSettings = useCallback(async (data, token) => {
-    try {
-      const response = await request({
-        method: "POST",
-        token: token,
-        url: "api/settings",
-        data
-      });
-      dispatch({
-        type: LOAD_USER_SETTINGS,
-        payload: response.data.isTelegramAkk
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const getContragentSettings = useCallback(
+    async (data, token) => {
+      try {
+        const response = await request({
+          method: "POST",
+          token: token,
+          url: "api/settings",
+          data
+        });
+        dispatch({
+          type: LOAD_USER_SETTINGS,
+          payload: response.data.isTelegramAkk
+        });
+      } catch (error) {
+        logOut();
+      }
+    },
+    [logOut]
+  );
 
   const refreshToken = useCallback(async () => {
     const token = localStorage.getItem("auth");
-    const response = await request({ url: "check/refresh", token });
-    const newToken = response.data.newRefreshToken;
-    localStorage.setItem("auth", newToken);
-    dispatch({ type: REFRESH_TOKEN, payload: newToken });
-  }, []);
+    try {
+      const response = await request({ url: "check/refresh", token });
+      const newToken = response.data.newRefreshToken;
+      localStorage.setItem("auth", newToken);
+      dispatch({ type: REFRESH_TOKEN, payload: newToken });
+    } catch (error) {
+      logOut();
+    }
+  }, [logOut]);
 
   const setAuthError = payload => {
     dispatch({ type: SET_AUTH_ERROR, payload });
@@ -240,19 +252,14 @@ const AUthState = ({ children }) => {
         });
       }
     } catch (error) {
-      console.log(error.response ? error.response.data : error);
+      logOut();
     } finally {
       setLoading(false);
     }
-  }, [refreshToken]);
+  }, [refreshToken, logOut]);
 
   const setCurrentUser = payload => {
     dispatch({ type: SET_CURRENT_USER, payload });
-  };
-
-  const logOut = () => {
-    localStorage.removeItem("auth");
-    dispatch({ type: LOG_OUT, payload: initialStateAuth });
   };
 
   return (
