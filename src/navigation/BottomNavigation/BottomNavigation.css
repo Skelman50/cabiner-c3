@@ -1,0 +1,10 @@
+.bottom-navigation-wrapper {
+  padding: 1em 0;
+  background: white;
+}
+
+.bottom-navigation-menu {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  background: white !important;
+}

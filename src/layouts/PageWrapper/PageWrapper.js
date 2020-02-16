@@ -21,7 +21,9 @@ const PageWrapper = props => {
     "no-padding": true,
     "page-wrapper": true,
     login: location.pathname === "/login",
-    archives: location.pathname.includes("archives")
+    "wrap-with-bottom-nav":
+      location.pathname.includes("archives") ||
+      location.pathname.includes("settings")
   });
   return (
     <Segment className={className}>

@@ -19,7 +19,8 @@ import DesktopNavigation from "../../navigation/DesktopNavigation/DesktopNavigat
 import { AuthContext } from "../../context/auth/auth-context";
 import { useLocation } from "react-router-dom";
 import { ContractsContext } from "../../context/contracts/contracts-context";
-import Archives from "../../pages/Archives/Archives";
+import ArchiveBottomNavigation from "../../components/archives/ArchiveBottomNavigation/ArchiveBottomNavigation";
+import SettingsBottomNavigation from "../../components/settings/SettingsBottomNavigation";
 
 const PageLayout = () => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
@@ -96,14 +97,9 @@ const PageLayout = () => {
           )}
         </Menu>
       </Segment>
-      {location.pathname.includes("archives") && (
-        <Archives
-          style={{
-            maxWidth: "800px",
-            margin: "0 auto",
-            background: "white"
-          }}
-        />
+      {location.pathname.includes("archives") && <ArchiveBottomNavigation />}
+      {location.pathname.includes("settings") && !ismaxHeight && (
+        <SettingsBottomNavigation />
       )}
     </div>
   );

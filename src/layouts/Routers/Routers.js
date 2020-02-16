@@ -14,6 +14,9 @@ import Privat from "../../pages/Privat/Privat";
 import CheckOut from "../../pages/CheckOut/CheckOut";
 import Bills from "../../pages/Archives/Bills/Bills";
 import Acts from "../../pages/Archives/Acts/Acts";
+import SettingsUsers from "../../pages/Settings/Users/SettingsUsers";
+import SettingsContacts from "../../pages/Settings/Contacts/SettingsContacts";
+import SettingsPassword from "../../pages/Settings/Password/SettingsPassword";
 
 const Routers = () => {
   const { loadUser, isUserLoaded, refreshToken } = useContext(AuthContext);
@@ -39,9 +42,14 @@ const Routers = () => {
           <PrivateRoute path="/" exact component={Contracts} />
           <PrivateRoute path="/archives/bills" component={Bills} />
           <PrivateRoute path="/archives/acts" component={Acts} />
+          <PrivateRoute path="/settings/users" component={SettingsUsers} />
           <PrivateRoute
-            path="/settings"
-            component={() => <div>settings</div>}
+            path="/settings/password"
+            component={SettingsPassword}
+          />
+          <PrivateRoute
+            path="/settings/contacts"
+            component={SettingsContacts}
           />
           <PrivateRoute path="/payments" exact component={Payments} />
           <PrivateRoute path="/payments/liqpay" exact component={Liqpay} />
@@ -53,6 +61,7 @@ const Routers = () => {
           <PrivateRoute path="/payments/privat" exact component={Privat} />
           <Route path="/login" component={Login} />
           <Redirect from="/archives/" to="/archives/bills" />
+          <Redirect from="/settings/" to="/settings/users" />
           <Redirect to="/" />
         </Switch>
       </PageWrapper>

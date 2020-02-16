@@ -43,6 +43,10 @@
   .modal-header .content {
     font-size: 0.75em !important;
   }
+
+  .bottom-nav {
+    font-size: 0.75em !important;
+  }
   /* .button {
     margin: 0.25em 0 !important;
     width: 100% !important;
