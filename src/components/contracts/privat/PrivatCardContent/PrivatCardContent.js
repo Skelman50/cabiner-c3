@@ -16,7 +16,6 @@ const PrivatCardContent = props => {
             />
           }
         />
-
         <Card.Header className="center-text privat-payment-header">{`Реквізити для оплати по угоді ${props.currentContract.number}`}</Card.Header>
         <Card.Header
           className="center-text privat-payment-header"

@@ -1,25 +1,14 @@
 import React from "react";
-import { Card, Button } from "semantic-ui-react";
-import useMediaQuery from "react-use-media-query-hook";
+import { Card, Button, Icon } from "semantic-ui-react";
 
 const ContractCardAction = ({ onClick }) => {
-  const isMobile = useMediaQuery("(max-width: 550px)");
   return (
     <Card.Content extra>
-      {isMobile && (
-        <div className="ui two buttons">
-          <Button primary onClick={onClick}>
-            Сплатити{" "}
-          </Button>
-        </div>
-      )}
-      {!isMobile && (
-        <div className="pay-button-content" onClick={onClick}>
-          <Button primary className="pay-button">
-            Сплатити{" "}
-          </Button>
-        </div>
-      )}
+      <div className="pay-button-content" onClick={onClick}>
+        <Button primary className="pay-button" floated="right">
+          Сплатити <Icon name="chevron right" />
+        </Button>
+      </div>
     </Card.Content>
   );
 };

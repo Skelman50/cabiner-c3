@@ -10,3 +10,13 @@
 .acts-datepicker-button {
   width: 100% !important;
 }
+
+.archive-acts-button {
+  width: 10em !important;
+}
+
+@media (max-width: 550px) {
+  .archive-acts-button {
+    width: 50% !important;
+  }
+}

@@ -49,7 +49,13 @@ const ObjectItem = ({ object }) => {
 
 const ObjectsList = ({ open, objects, onClose, contractNumber }) => {
   return (
-    <Modal open={open} onClose={onClose} closeIcon closeOnDimmerClick={false}>
+    <Modal
+      transition={{ animation: "fly up", duration: 500 }}
+      open={open}
+      onClose={onClose}
+      closeIcon
+      closeOnDimmerClick={false}
+    >
       <Header
         icon="building"
         content={`Об'єкти по угоді ${contractNumber}:`}

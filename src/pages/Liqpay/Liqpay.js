@@ -88,6 +88,7 @@ const Liqpay = props => {
               type="submit"
               primary
               content="Сплатити"
+              floated="right"
               icon="check"
               disabled={!payAmount || payAmount <= 0}
             />

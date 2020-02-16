@@ -6,7 +6,7 @@ import { Button } from "semantic-ui-react";
 import "./BillsDatePickerContent.css";
 registerLocale("uk", ptBR);
 
-const CustomInput = forwardRef(({ value, onClick }, ref) => (
+const CustomInputStart = forwardRef(({ value, onClick }, ref) => (
   <Button
     className="bills-datepicker-button"
     content={value}
@@ -17,14 +17,25 @@ const CustomInput = forwardRef(({ value, onClick }, ref) => (
     color="blue"
   />
 ));
-const BillsDatePickerContent = ({ date, handleChange, label }) => {
+const CustomInputEnd = forwardRef(({ value, onClick }, ref) => (
+  <Button
+    className="bills-datepicker-button"
+    content={value}
+    ref={ref}
+    onClick={onClick}
+    icon="calendar alternate"
+    basic
+    color="red"
+  />
+));
+const BillsDatePickerContent = ({ date, handleChange, label, end = false }) => {
   return (
     <div className="bills-datepicker-content">
       <div className="bills-datepicker-label">{label}</div>
       <DatePicker
         selected={date}
         onChange={handleChange}
-        customInput={<CustomInput />}
+        customInput={end ? <CustomInputEnd /> : <CustomInputStart />}
         dateFormat="dd MMMM yyyy"
         locale="uk"
         withPortal

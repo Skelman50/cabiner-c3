@@ -61,18 +61,24 @@ const ActCardItem = ({ contract }) => {
           maxDate={new Date()}
         />
       </div>
-      <div style={{ display: "flex", margin: "0 1em 1em" }}>
+      <div
+        style={{
+          display: "flex",
+          margin: "0 1em 1em",
+          justifyContent: "flex-end"
+        }}
+      >
         <Button
+          className="archive-acts-button"
           primary
           content="Рахунок"
-          style={{ width: "10em" }}
           icon="file pdf"
           onClick={() => getPdf("getbill")}
         />
         <Button
+          className="archive-acts-button"
           primary
           content="Акт"
-          style={{ width: "10em" }}
           icon="file pdf"
           onClick={() => getPdf("getact")}
         />

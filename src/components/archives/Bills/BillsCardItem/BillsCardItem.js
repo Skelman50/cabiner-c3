@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import ContractContent from "../../../shared/ContractContent/ContractContent";
-import { Card, Button, Message } from "semantic-ui-react";
+import { Card, Button, Message, Icon } from "semantic-ui-react";
 import BillsDatePickerContent from "../BillsDatePickerContent/BillsDatePickerContent";
 
 import "./BillsCardIten.css";
@@ -55,13 +55,6 @@ const BillsCardItem = ({ contract }) => {
 
   return (
     <Card fluid>
-      {showError && (
-        <Message
-          error
-          content={`За обраний період оплат не знайдено`}
-          onDismiss={onDismiss}
-        />
-      )}
       <ContractContent contract={contract} />
       <div className="bills-card-content">
         <BillsDatePickerContent
@@ -73,17 +66,29 @@ const BillsCardItem = ({ contract }) => {
           date={endDate}
           handleChange={handleChangeEnd}
           label="Оберіть кінцеву дату"
+          end
         />
       </div>
+      {showError && (
+        <div style={{ padding: "0 1em 1em" }}>
+          <Message
+            style={{ maxWidth: "90%" }}
+            error
+            content={`За обраний період оплат не знайдено`}
+            onDismiss={onDismiss}
+          />
+        </div>
+      )}
       <div style={{ padding: "0 1em 1em" }}>
         <Button
           disabled={isLoading}
           loading={isLoading}
           primary
-          content="Переглянути"
-          icon="find"
           onClick={handleClick}
-        />
+          floated="right"
+        >
+          Переглянути <Icon name="chevron right" />
+        </Button>
       </div>
       <BillsModalList
         showModal={showModal}
