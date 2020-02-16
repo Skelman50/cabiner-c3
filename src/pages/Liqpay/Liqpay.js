@@ -64,7 +64,7 @@ const Liqpay = props => {
           trigger={
             <Icon
               className="icon-back"
-              name="arrow left"
+              name="reply"
               onClick={() => props.history.push("/payments")}
             />
           }

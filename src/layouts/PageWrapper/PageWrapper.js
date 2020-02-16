@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { Segment, Message } from "semantic-ui-react";
+import classNames from "classnames";
 
 import "./PageWrapper.css";
 import { AuthContext } from "../../context/auth/auth-context";
@@ -13,12 +14,17 @@ const PageWrapper = props => {
     isUserRegister,
     setIsUserRegister
   } = useContext(AuthContext);
+
+  const className = classNames({
+    "segment-no-border": true,
+    "max-width": true,
+    "no-padding": true,
+    "page-wrapper": true,
+    login: location.pathname === "/login",
+    archives: location.pathname.includes("archives")
+  });
   return (
-    <Segment
-      className={`segment-no-border max-width no-padding page-wrapper${
-        location.pathname === "/login" ? " login" : ""
-      }`}
-    >
+    <Segment className={className}>
       {isPasswordReset && (
         <Message info onDismiss={() => setIsPasswordReset(false)}>
           <Message.Header>Пароль успішно змінено!</Message.Header>

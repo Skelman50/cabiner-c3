@@ -3,7 +3,6 @@ import { AuthContext } from "../../../context/auth/auth-context";
 import { ContractsContext } from "../../../context/contracts/contracts-context";
 import { Segment } from "semantic-ui-react";
 import BillsCardItem from "../../../components/archives/Bills/BillsCardItem/BillsCardItem";
-import Archives from "../Archives";
 
 const Bills = () => {
   const { currentUser } = useContext(AuthContext);
@@ -24,7 +23,6 @@ const Bills = () => {
 
   return (
     <Fragment>
-      <Archives />
       <Segment
         className="segment-no-border no-padding"
         disabled={loadingContracts}

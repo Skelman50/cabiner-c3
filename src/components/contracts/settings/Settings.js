@@ -50,13 +50,7 @@ const ContractSettings = ({ open, onClose, contract, data, setUpdated }) => {
     return <Redirect to={redirectTo} />;
   }
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      closeIcon
-      closeOnDimmerClick={false}
-      centered={false}
-    >
+    <Modal open={open} onClose={onClose} closeIcon closeOnDimmerClick={false}>
       <Header
         icon="settings"
         className="modal-header"

@@ -1,0 +1,12 @@
+.acts-datepicker-content {
+  padding: 0 1em 1em;
+}
+
+.acts-datepicker-label {
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+.acts-datepicker-button {
+  width: 100% !important;
+}

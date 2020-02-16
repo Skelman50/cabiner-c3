@@ -25,11 +25,11 @@ const Privat = props => {
     <Card fluid>
       <Card.Content>
         <Popup
-          content="Повернутися до вибору способи оплати"
+          content="Повернутися до вибору типів оплати"
           trigger={
             <Icon
               className="icon-back"
-              name="arrow left"
+              name="reply"
               onClick={() => props.history.push("/payments")}
             />
           }
