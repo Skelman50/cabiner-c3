@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Form, Button, Segment, Icon, Popup } from "semantic-ui-react";
+import { Card, Form, Button, Segment } from "semantic-ui-react";
 // import useMediaQuery from "react-use-media-query-hook";
 import useRedirect from "../../hooks/useRedirect";
 import { ContractsContext } from "../../context/contracts/contracts-context";
@@ -8,6 +8,7 @@ import PaymentCardDescription from "../../components/shared/PaymentCardDescripti
 import ErrorMessage from "../../components/shared/ErrorMessage/ErrorMessage";
 
 import "./Liqpay.css";
+import BackIcon from "../../components/shared/BackIcon/BackIcon";
 
 const Liqpay = props => {
   const redirect = useRedirect();
@@ -21,8 +22,6 @@ const Liqpay = props => {
     error,
     setError
   } = useContext(ContractsContext);
-
-  // const isMobile = useMediaQuery("(max-width: 550px)");
 
   const [isCheckOut, setIsCheckOut] = useState(false);
 
@@ -48,21 +47,16 @@ const Liqpay = props => {
     return <Redirect to="/payments/liqpay/checkout" />;
   }
 
+  const redirectTo = () => {
+    props.history.push("/payments");
+  };
+
   return (
     <Card fluid>
       {error && <ErrorMessage error={error} />}
       <Card.Content>
-        <Popup
-          content="Повернутися до вибору способи оплати"
-          trigger={
-            <Icon
-              className="icon-back"
-              name="reply"
-              onClick={() => props.history.push("/payments")}
-            />
-          }
-        />
-        <Card.Header className="center-text">{`Оплата по угоді ${currentContract.number}`}</Card.Header>
+        <BackIcon redirectTo={redirectTo} />
+        <Card.Header>{`Угода ${currentContract.number}`}</Card.Header>
         <PaymentCardDescription currentContract={currentContract} />
       </Card.Content>
       <Card.Content extra>

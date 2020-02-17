@@ -1,20 +1,13 @@
-import React, {
-  useState,
-  useContext,
-  useEffect,
-  useRef,
-  Fragment
-} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Form, Button, Segment } from "semantic-ui-react";
 import { AuthContext } from "../../context/auth/auth-context";
 import useMediaQuery from "react-use-media-query-hook";
-
 import "./Login.css";
-import InfoMessage from "../../components/shared/InfoMessage/InfoMessage";
 import { Redirect } from "react-router-dom";
-import { pinMessage } from "../../utils/pin-messages";
-import ReactInputMask from "react-input-mask";
+
 import { filterPhone } from "../../utils/filter-phone";
+import LoginMessage from "../../components/login/LoginMessage/LoginMessage";
+import LoginContent from "../../components/login/LoginContent/LoginContent";
 
 const Login = () => {
   const {
@@ -128,178 +121,92 @@ const Login = () => {
     return <Redirect to="/" />;
   }
 
+  const disabled = () => {
+    if (!dbUser && !isPassword && filterPhone(phonenumber).includes("_")) {
+      return true;
+    }
+    if (
+      dbUser === "yes" &&
+      !isPassword &&
+      !isForgotPassword &&
+      !isSendPinForForgot &&
+      password.length < 6
+    ) {
+      return true;
+    }
+    if (
+      dbUser === "yes" &&
+      !isPassword &&
+      isForgotPassword &&
+      !isSendPinForForgot &&
+      (password.length < 6 || password !== confirmPassword)
+    ) {
+      return true;
+    }
+    if (
+      dbUser === "no" &&
+      !isPassword &&
+      !pinStatus &&
+      !isForgotPassword &&
+      !isSendPinForForgot &&
+      (password.length < 6 || password !== confirmPassword)
+    ) {
+      return true;
+    }
+    if (
+      (isPassword || isSendPinForForgot || (dbUser === "no" && pinStatus)) &&
+      pin.includes("*")
+    ) {
+      return true;
+    }
+  };
+
   return (
     <Form
       onSubmit={handleSubmit}
       loading={loadingUser}
       style={{ maxWidth: "500px", margin: "2em auto" }}
     >
-      {!dbUser && !isPassword && (
-        <InfoMessage text={"Введіть свій верифікований номер телефону!"} />
-      )}
-      {dbUser === "yes" &&
-        !isPassword &&
-        !isForgotPassword &&
-        !isSendPinForForgot && <InfoMessage text={"Введіть свій пароль!"} />}
-      {dbUser === "no" &&
-        !isPassword &&
-        !pinStatus &&
-        !isForgotPassword &&
-        !isSendPinForForgot && (
-          <InfoMessage
-            text={
-              "Це ваш перший вхід в систему. Придумайте пароль та підтвердіть його."
-            }
-          />
-        )}
-      {dbUser === "yes" &&
-        !isPassword &&
-        isForgotPassword &&
-        !isSendPinForForgot && (
-          <InfoMessage text={"Введіть новий пароль та підтвердіть його!"} />
-        )}
-      {(isPassword || isSendPinForForgot || (dbUser === "no" && pinStatus)) && (
-        <InfoMessage text={pinMessage({ pinStatus, pinType, timer })} />
-      )}
-
+      <LoginMessage
+        dbUser={dbUser}
+        isPassword={isPassword}
+        isForgotPassword={isForgotPassword}
+        isSendPinForForgot={isSendPinForForgot}
+        pinStatus={pinStatus}
+        pinType={pinType}
+        timer={timer}
+      />
       <Segment>
-        {!dbUser && (
-          <ReactInputMask
-            mask="+380 (99) 9999999"
-            value={phonenumber}
-            onChange={handleChangePhoneInput}
-          >
-            {inputProps => (
-              <Form.Input
-                error={error}
-                placeholder="Телефон"
-                fluid
-                icon="phone"
-                autoFocus
-                name="phone"
-                type="tel"
-                label="Телефон"
-                iconPosition="left"
-                {...inputProps}
-              />
-            )}
-          </ReactInputMask>
-        )}
-
-        {dbUser && !isPassword && !isSendPinForForgot && !pinStatus && (
-          <Fragment>
-            <Form.Input
-              fluid
-              error={error}
-              type="password"
-              autoFocus
-              placeholder="Пароль"
-              value={password}
-              label="Пароль"
-              iconPosition="left"
-              icon="lock"
-              onChange={e => setPassword(e.target.value)}
-            />
-            {!isForgotPassword && dbUser !== "no" && (
-              <div
-                className="login-helper-text"
-                onClick={() => {
-                  setAuthError(null);
-                  setIsForgotPassword(true);
-                }}
-              >
-                Забули пароль?
-              </div>
-            )}
-            {isForgotPassword && dbUser !== "no" && (
-              <div
-                className="login-helper-text"
-                onClick={() => setIsForgotPassword(false)}
-              >
-                Згадали пароль?
-              </div>
-            )}
-          </Fragment>
-        )}
-        {dbUser === "yes" &&
-          !isPassword &&
-          isForgotPassword &&
-          !pinStatus &&
-          !isSendPinForForgot && (
-            <Form.Input
-              fluid
-              error={error}
-              type="password"
-              placeholder="Підтвердіть пароль"
-              value={confirmPassword}
-              label="Підтвердження пароля"
-              iconPosition="left"
-              icon="lock"
-              onChange={e => setConfirmPassword(e.target.value)}
-            />
-          )}
-        {dbUser === "no" &&
-          !isPassword &&
-          !isSendPinForForgot &&
-          !pinStatus && (
-            <Form.Input
-              fluid
-              error={error}
-              type="password"
-              placeholder="Підтвердіть пароль"
-              value={confirmPassword}
-              label="Підтвердження пароля"
-              iconPosition="left"
-              icon="lock"
-              onChange={e => setConfirmPassword(e.target.value)}
-            />
-          )}
-        {(isPassword ||
-          isSendPinForForgot ||
-          (dbUser === "no" && pinStatus)) && (
-          <Fragment>
-            <ReactInputMask
-              mask="9999"
-              value={pin}
-              maskChar="*"
-              onChange={e => setPin(e.target.value)}
-            >
-              {inputProps => (
-                <Form.Input
-                  fluid
-                  {...inputProps}
-                  error={error}
-                  autoFocus
-                  placeholder="PIN"
-                  label="PIN"
-                  iconPosition="left"
-                  icon="certificate"
-                />
-              )}
-            </ReactInputMask>
-            <div
-              className="login-helper-text"
-              onClick={() => {
-                const filteredPhone = filterPhone(phonenumber);
-                getPin({ phoneToPin: filteredPhone.replace("+", "") });
-              }}
-            >
-              Отримати знову
-            </div>
-          </Fragment>
-        )}
-        <Button
-          type="submit"
-          primary
-          icon="send"
-          disabled={
-            loadingUser || phonenumber.length < 13
-            // password.length < 6 ||
-            // password !== confirmPassword ||
-            // pin.length < 4
-          }
-          content="Відправити"
+        <LoginContent
+          error={error}
+          phonenumber={phonenumber}
+          handleChangePhoneInput={handleChangePhoneInput}
+          dbUser={dbUser}
+          isPassword={isPassword}
+          pinStatus={pinStatus}
+          isSendPinForForgot={isSendPinForForgot}
+          password={password}
+          confirmPassword={confirmPassword}
+          setConfirmPassword={setConfirmPassword}
+          setPassword={setPassword}
+          pin={pin}
+          setPin={setPin}
+          setIsForgotPassword={setIsForgotPassword}
+          setAuthError={setAuthError}
+          isForgotPassword={isForgotPassword}
+          getPin={getPin}
         />
+        <div
+          style={{ display: "flex", width: "100%", justifyContent: "flex-end" }}
+        >
+          <Button
+            type="submit"
+            primary
+            icon="send"
+            disabled={disabled()}
+            content="Відправити"
+          />
+        </div>
       </Segment>
     </Form>
   );

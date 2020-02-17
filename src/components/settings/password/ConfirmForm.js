@@ -1,14 +1,22 @@
 import React from "react";
 import { Card, Form, Button } from "semantic-ui-react";
 
-const ConfirmForm = ({ value, setValue, loading, onSubmit, error }) => {
+const ConfirmForm = ({
+  value,
+  setValue,
+  loading,
+  onSubmit,
+  error,
+  disabled
+}) => {
   return (
     <Card.Content>
       <Form onSubmit={onSubmit} loading={loading}>
         <Form.Input
           type="password"
           label="Введіть старий пароль"
-          icon="key"
+          icon="lock"
+          placeholder="Старий пароль"
           value={value}
           onChange={e => setValue(e.target.value)}
           iconPosition="left"
@@ -16,7 +24,7 @@ const ConfirmForm = ({ value, setValue, loading, onSubmit, error }) => {
           error={error && "Ви ввели невірний пароль!"}
         />
         <Button
-          disabled={loading}
+          disabled={loading || disabled}
           type="submit"
           primary
           content="Надіслати"

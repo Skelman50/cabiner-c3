@@ -57,6 +57,15 @@ const SettingsPassword = () => {
     }
   }, [confirmResponse.response]);
 
+  const disabled = () => {
+    if (type === "confirm") {
+      return password.length < 6;
+    }
+    if (type === "edit") {
+      return password.length < 6 || password !== confirmPassword;
+    }
+  };
+
   return (
     <Card fluid>
       <Header style={{ margin: "0" }}>
@@ -69,6 +78,7 @@ const SettingsPassword = () => {
           setValue={setPassword}
           onSubmit={handleConfirmPassword}
           error={confirmError}
+          disabled={disabled()}
         />
       )}
       {type === "edit" && (
@@ -79,6 +89,7 @@ const SettingsPassword = () => {
           setConfirmPassword={setConfirmPassword}
           setPassword={setPassword}
           onSubmit={handleEditPassword}
+          disabled={disabled()}
         />
       )}
       {(!type || type === "success") && (

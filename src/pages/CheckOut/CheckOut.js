@@ -39,7 +39,7 @@ const CheckOut = () => {
           className="center-text"
           style={{ margin: "0.2em 0" }}
         >{`Угода ${currentContract.number}.`}</Card.Header>
-        <PaymentCardDescription currentContract={currentContract} />
+        <PaymentCardDescription currentContract={currentContract} isCenter />
         <Card.Meta
           className="center-text"
           style={{ color: "black", fontWeight: "bold", marginTop: "0.2em" }}

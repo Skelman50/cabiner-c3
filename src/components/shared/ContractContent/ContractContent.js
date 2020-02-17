@@ -31,7 +31,7 @@ const ContractContent = ({ contract, children }) => {
   return (
     <Card.Content>
       {children}
-      <Card.Header>{contract.number}</Card.Header>
+      <Card.Header>Угода {contract.number}</Card.Header>
       <Card.Description>{text()}</Card.Description>
       <Card.Meta>
         Сума указана з урахуванням абонплати за поточний місяць

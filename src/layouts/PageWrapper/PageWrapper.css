@@ -1,11 +1,11 @@
 .page-wrapper {
   max-width: 800px !important;
-  padding-top: 115px !important;
+  padding-top: 125px !important;
   padding-bottom: 100px !important;
 }
 
 .page-wrapper.wrap-with-bottom-nav {
-  padding-top: 170px !important;
+  padding-top: 185px !important;
 }
 
 @media (max-width: 550px) {

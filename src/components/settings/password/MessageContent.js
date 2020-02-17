@@ -19,7 +19,9 @@ const MessageContent = ({ type }) => {
       {type === "edit" && (
         <Fragment>
           <Icon name="exclamation circle" />
-          <span>Введіть новий пароль та підтвердіть його!</span>
+          <span>
+            Введіть новий пароль (не менше 6 символів) та підтвердіть його!
+          </span>
         </Fragment>
       )}
       {type === "success" && (

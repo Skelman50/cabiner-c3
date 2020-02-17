@@ -56,6 +56,16 @@ const BillsCardItem = ({ contract }) => {
   return (
     <Card fluid>
       <ContractContent contract={contract} />
+      {showError && (
+        <div style={{ padding: "0 1em 1em" }}>
+          <Message
+            style={{ maxWidth: "90%" }}
+            error
+            content={`За обраний період оплат не знайдено`}
+            onDismiss={onDismiss}
+          />
+        </div>
+      )}
       <div className="bills-card-content">
         <BillsDatePickerContent
           date={startDate}
@@ -69,16 +79,7 @@ const BillsCardItem = ({ contract }) => {
           end
         />
       </div>
-      {showError && (
-        <div style={{ padding: "0 1em 1em" }}>
-          <Message
-            style={{ maxWidth: "90%" }}
-            error
-            content={`За обраний період оплат не знайдено`}
-            onDismiss={onDismiss}
-          />
-        </div>
-      )}
+
       <div style={{ padding: "0 1em 1em" }}>
         <Button
           disabled={isLoading}

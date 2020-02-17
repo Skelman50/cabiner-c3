@@ -7,7 +7,8 @@ const EditForm = ({
   setPassword,
   setConfirmPassword,
   onSubmit,
-  loading
+  loading,
+  disabled
 }) => {
   return (
     <Card.Content>
@@ -15,7 +16,8 @@ const EditForm = ({
         <Form.Input
           type="password"
           label="Введіть новий пароль"
-          icon="key"
+          placeholder="Новий пароль"
+          icon="lock"
           value={password}
           onChange={e => setPassword(e.target.value)}
           iconPosition="left"
@@ -24,14 +26,15 @@ const EditForm = ({
         <Form.Input
           type="password"
           label="Підтвердіть новий пароль"
-          icon="key"
+          icon="lock"
+          placeholder="Підтвердіть пароль"
           value={confirmPassword}
           onChange={e => setConfirmPassword(e.target.value)}
           iconPosition="left"
         />
         <Button
           type="submit"
-          disabled={loading}
+          disabled={loading || disabled}
           primary
           content="Надіслати"
           icon="send"

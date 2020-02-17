@@ -56,7 +56,7 @@ const PageLayout = () => {
     setIsContagentMenu(false);
   }, []);
 
-  const isMobile = useMediaQuery("(max-width: 800px)");
+  const isMobile = useMediaQuery("(max-width: 650px)");
   const ismaxHeight = useMediaQuery("(max-height: 450px)");
 
   if (ismaxHeight && location.pathname === "/login") return null;
