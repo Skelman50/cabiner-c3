@@ -1,0 +1,19 @@
+.message-response {
+  padding-right: 0.75em !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.message-without-response {
+  padding-right: 0.75em !important;
+}
+
+.response-text {
+  text-align: justify;
+}
+
+@media (max-width: 550px) {
+  .message-response {
+    font-size: 0.5em !important;
+  }
+}

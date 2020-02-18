@@ -2,29 +2,36 @@ import React, { useContext } from "react";
 import { Card, Header, Button, Icon } from "semantic-ui-react";
 import { AuthContext } from "../../../context/auth/auth-context";
 
-const SettingsContacts = () => {
+import "./SettingsContacts.css";
+
+const SettingsContacts = props => {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
   return (
     <Card fluid>
       <Header
-        style={{ margin: "0", padding: "1em 1em", display: "flex" }}
+        className="settings-contacts-header"
         icon="phone"
-        content={`Ваш телефон: +380666634078`}
+        content={`Ваш телефон: ${currentUser && currentUser.phone}`}
       />
       <Header
-        style={{ margin: "0", padding: "1em 1em", display: "flex" }}
+        className="settings-contacts-header"
         icon="mail"
         content={`Список електронних адрес:`}
       />
       <Card.Content>
         {(!currentUser || !currentUser.e_mail.length) && (
-          <div>
+          <div style={{ marginBottom: "1em" }}>
             <Icon name="info" />
             Ще не додано жодної електронної адреси!
           </div>
         )}
-        <Button primary icon="add" content="Додати" floated="right" />
+        <Button
+          primary
+          icon="add"
+          content="Додати"
+          floated="right"
+          onClick={() => props.history.push("/settings/contacts/addemail")}
+        />
       </Card.Content>
     </Card>
   );

@@ -17,6 +17,7 @@ import Acts from "../../pages/Archives/Acts/Acts";
 import SettingsUsers from "../../pages/Settings/Users/SettingsUsers";
 import SettingsContacts from "../../pages/Settings/Contacts/SettingsContacts";
 import SettingsPassword from "../../pages/Settings/Password/SettingsPassword";
+import AddEmail from "../../pages/Settings/Contacts/AddEmail/AddEmail";
 
 const Routers = ({ socket }) => {
   const { loadUser, isUserLoaded, refreshToken } = useContext(AuthContext);
@@ -50,12 +51,18 @@ const Routers = ({ socket }) => {
           <PrivateRoute path="/archives/acts" component={Acts} />
           <PrivateRoute path="/settings/users" component={SettingsUsers} />
           <PrivateRoute
+            exact
             path="/settings/password"
             component={SettingsPassword}
           />
           <PrivateRoute
+            exact
             path="/settings/contacts"
             component={SettingsContacts}
+          />
+          <PrivateRoute
+            path="/settings/contacts/addemail"
+            component={AddEmail}
           />
           <PrivateRoute path="/payments" exact component={Payments} />
           <PrivateRoute path="/payments/liqpay" exact component={Liqpay} />

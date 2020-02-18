@@ -1,0 +1,11 @@
+.settings-contacts-header {
+  margin: 0 !important;
+  padding: 1em 1em !important;
+  display: flex !important;
+}
+
+@media (max-width: 550px) {
+  .settings-contacts-header {
+    font-size: 1.1em !important;
+  }
+}

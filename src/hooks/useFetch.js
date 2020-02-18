@@ -33,6 +33,7 @@ export const useFetch = url => {
         }
       })
       .catch(error => {
+        console.log(error);
         if (!isDestroy) {
           logOut();
         }
