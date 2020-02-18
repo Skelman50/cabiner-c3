@@ -8,6 +8,7 @@ import privat from "../../assets/images/privat24.svg";
 import "./PageFooter.css";
 import AboutUs from "../../components/layouts/page-footer/AboutUs";
 import { useFetch } from "../../hooks/useFetch";
+import { domain } from "../../config/config";
 
 const PageFooter = () => {
   const [open, setOpen] = useState(false);
@@ -36,7 +37,10 @@ const PageFooter = () => {
           >
             <Icon name="question circle" /> Про нас
           </Segment>
-          <span className="footer-info-content bottom">
+          <span
+            className="footer-info-content bottom"
+            onClick={() => window.open(`${domain}file/agreement`)}
+          >
             <Icon name="clipboard list" />
             Угода користувача
           </span>

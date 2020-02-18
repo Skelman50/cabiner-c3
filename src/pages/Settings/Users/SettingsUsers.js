@@ -6,9 +6,11 @@ const SettingsUsers = () => {
   const { users } = useContext(AuthContext);
   return (
     <Card fluid>
-      <Header style={{ margin: "0", padding: "1em 1em" }}>
-        Доступні контрагенти
-      </Header>
+      <Header
+        style={{ margin: "0", padding: "1em 1em" }}
+        content="Доступні контрагенти"
+        icon="users"
+      />
       <Card.Content>
         <List>
           {users.map(item => (

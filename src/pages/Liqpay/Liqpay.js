@@ -63,6 +63,7 @@ const Liqpay = props => {
         <Form onSubmit={createCheckOut}>
           <Form.Field>
             <Form.Input
+              className="liqpay-input"
               icon="credit card"
               iconPosition="left"
               label="Введіть суму в грн"

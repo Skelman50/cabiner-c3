@@ -18,8 +18,14 @@ import SettingsUsers from "../../pages/Settings/Users/SettingsUsers";
 import SettingsContacts from "../../pages/Settings/Contacts/SettingsContacts";
 import SettingsPassword from "../../pages/Settings/Password/SettingsPassword";
 
-const Routers = () => {
+const Routers = ({ socket }) => {
   const { loadUser, isUserLoaded, refreshToken } = useContext(AuthContext);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("sad");
+    });
+  }, [socket]);
 
   useEffect(() => {
     loadUser();
