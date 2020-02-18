@@ -19,6 +19,7 @@ import {
   REGISTER_USER
 } from "../types";
 import { request } from "../../utils/request";
+import { sleep } from "../../utils/sleep";
 
 export const initialStateAuth = {
   currentUser: null,
@@ -238,6 +239,7 @@ const AUthState = ({ children }) => {
         return logOut();
       }
       if (response.data.Result && !response.data.Error) {
+        await sleep();
         await refreshToken();
         dispatch({
           type: LOAD_USER_SUCCESS,

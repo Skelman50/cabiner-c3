@@ -5,7 +5,6 @@ import Contracts from "../../pages/Contracts/Contracts";
 import PageWrapper from "../PageWrapper/PageWrapper";
 import PageFooter from "../PageFooter/PageFooter";
 import { AuthContext } from "../../context/auth/auth-context";
-import { Segment } from "semantic-ui-react";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../../pages/Login/Login";
 import Payments from "../../pages/Payments/Payments";
@@ -18,6 +17,7 @@ import SettingsUsers from "../../pages/Settings/Users/SettingsUsers";
 import SettingsContacts from "../../pages/Settings/Contacts/SettingsContacts";
 import SettingsPassword from "../../pages/Settings/Password/SettingsPassword";
 import AddEmail from "../../pages/Settings/Contacts/AddEmail/AddEmail";
+import InitPage from "../InitPage/InitPage";
 
 const Routers = ({ socket }) => {
   const { loadUser, isUserLoaded, refreshToken } = useContext(AuthContext);
@@ -39,7 +39,7 @@ const Routers = ({ socket }) => {
   }, [refreshToken]);
 
   if (!isUserLoaded) {
-    return <Segment loading style={{ height: "100vh" }} />;
+    return <InitPage />;
   }
   return (
     <BrowserRouter>

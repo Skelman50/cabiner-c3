@@ -1,0 +1,25 @@
+.init-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.486);
+  padding-top: 150px;
+}
+
+.init-page div {
+  margin-top: 50px;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.init-text {
+  margin-top: 250px;
+}
+
+.init-page img {
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+}
