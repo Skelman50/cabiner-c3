@@ -14,7 +14,17 @@ const SettingsUsers = () => {
       <Card.Content>
         <List>
           {users.map(item => (
-            <List.Item key={item.Ref_Key} icon="user" content={item.fullname} />
+            <List.Item
+              key={item.Ref_Key}
+              icon="user"
+              content={item.fullname}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                paddingTop: "0.25em",
+                paddingBottom: "0.25em"
+              }}
+            />
           ))}
         </List>
       </Card.Content>
