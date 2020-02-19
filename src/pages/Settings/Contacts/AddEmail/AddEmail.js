@@ -8,12 +8,12 @@ import classNames from "classnames";
 
 import "./AddEmail.css";
 
-const AddEmail = props => {
+const AddEmail = ({ setAddEmail }) => {
   const [{ error, isLoading, response }, doFetch] = useFetch();
   const { currentUser } = useContext(AuthContext);
 
   const redirectTo = () => {
-    props.history.push("/settings/contacts");
+    setAddEmail(false);
   };
 
   useEffect(() => {}, [response]);

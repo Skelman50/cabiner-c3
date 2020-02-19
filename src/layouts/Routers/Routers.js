@@ -16,7 +16,6 @@ import Acts from "../../pages/Archives/Acts/Acts";
 import SettingsUsers from "../../pages/Settings/Users/SettingsUsers";
 import SettingsContacts from "../../pages/Settings/Contacts/SettingsContacts";
 import SettingsPassword from "../../pages/Settings/Password/SettingsPassword";
-import AddEmail from "../../pages/Settings/Contacts/AddEmail/AddEmail";
 import InitPage from "../InitPage/InitPage";
 
 const Routers = ({ socket }) => {
@@ -59,10 +58,6 @@ const Routers = ({ socket }) => {
             exact
             path="/settings/contacts"
             component={SettingsContacts}
-          />
-          <PrivateRoute
-            path="/settings/contacts/addemail"
-            component={AddEmail}
           />
           <PrivateRoute path="/payments" exact component={Payments} />
           <PrivateRoute path="/payments/liqpay" exact component={Liqpay} />

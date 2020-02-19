@@ -1,13 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Card, Header, Button, Icon } from "semantic-ui-react";
 import { AuthContext } from "../../../context/auth/auth-context";
 
 import "./SettingsContacts.css";
 import EmailCardItem from "../../../components/settings/contacts/EmailCardItem";
+import AddEmail from "./AddEmail/AddEmail";
 
-const SettingsContacts = props => {
+const SettingsContacts = () => {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
+  const [addEmail, setAddEmail] = useState(false);
+
+  if (addEmail) {
+    return <AddEmail setAddEmail={setAddEmail} />;
+  }
   return (
     <Card fluid>
       <Header
@@ -22,24 +27,36 @@ const SettingsContacts = props => {
       />
       <Card.Content>
         {(!currentUser || !currentUser.e_mail.length) && (
-          <div style={{ marginBottom: "1em" }}>
+          <div>
             <Icon name="info" />
             Ще не додано жодної електронної адреси!
           </div>
         )}
-        <div style={{ width: "100%" }}>
+        <div
+          style={{
+            width: "100%"
+          }}
+        >
           {currentUser &&
             currentUser.e_mail.length !== 0 &&
             currentUser.e_mail.map(item => (
               <EmailCardItem email={item} key={item} />
             ))}
         </div>
+      </Card.Content>
+      <Card.Content
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          borderTop: "1px solid rgba(0,0,0,.1)",
+          paddingTop: "1em"
+        }}
+      >
         <Button
           primary
           icon="add"
           content="Додати"
-          floated="right"
-          onClick={() => props.history.push("/settings/contacts/addemail")}
+          onClick={() => setAddEmail(true)}
         />
       </Card.Content>
     </Card>
