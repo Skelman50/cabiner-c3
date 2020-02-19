@@ -4,6 +4,35 @@
   display: flex !important;
 }
 
+.email-card-item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+}
+
+.email-text-content {
+  display: flex;
+  align-items: center;
+  width: 90%;
+}
+
+.email-text {
+  width: 90%;
+}
+.email-icon {
+  display: flex !important;
+  align-items: center !important;
+  margin-right: 0.5em !important;
+}
+
+.email-delete-icon:hover {
+  cursor: pointer;
+}
+
 @media (max-width: 550px) {
   .settings-contacts-header {
     font-size: 1.1em !important;

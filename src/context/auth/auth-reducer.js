@@ -14,7 +14,8 @@ import {
   LOAD_USER_SETTINGS,
   SET_AUTH_ERROR,
   RESET_PASSWORD,
-  REGISTER_USER
+  REGISTER_USER,
+  DELETE_EMAIL
 } from "../types";
 
 const handlers = {
@@ -97,6 +98,11 @@ const handlers = {
   [LOG_OUT]: (state, { payload }) => ({
     ...payload,
     isUserLoaded: true
+  }),
+  [DELETE_EMAIL]: (state, { payload }) => ({
+    ...state,
+    users: payload.newUsers,
+    currentUser: payload.newCurrentUser
   }),
   DEFAULT: state => state
 };
