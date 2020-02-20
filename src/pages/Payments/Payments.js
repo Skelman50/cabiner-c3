@@ -22,7 +22,10 @@ const Payments = props => {
   return (
     <Card fluid>
       <Card.Content>
-        <BackIcon redirectTo={redirectTo} />
+        <BackIcon
+          redirectTo={redirectTo}
+          content="Повернутися до перегляду угод."
+        />
         <Card.Header>{`Угода ${currentContract.number}`}</Card.Header>
         <PaymentCardDescription currentContract={currentContract} />
         <Card.Meta style={{ color: "black", marginTop: "0.2em" }}>
