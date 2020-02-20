@@ -100,7 +100,7 @@ const ContractsState = ({ children }) => {
           method: "POST",
           data
         });
-        if (!response.data.Error) {
+        if (!response.data.Error && !response.data.error) {
           dispatch({
             type: LOAD_CONTRACTS_SUCCESS,
             payload: response.data
