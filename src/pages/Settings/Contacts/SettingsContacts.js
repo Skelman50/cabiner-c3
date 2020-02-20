@@ -39,8 +39,8 @@ const SettingsContacts = () => {
         >
           {currentUser &&
             currentUser.e_mail.length !== 0 &&
-            currentUser.e_mail.map(item => (
-              <EmailCardItem email={item} key={item} />
+            currentUser.e_mail.map((item, idx) => (
+              <EmailCardItem email={item} key={idx} />
             ))}
         </div>
       </Card.Content>

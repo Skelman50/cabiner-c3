@@ -20,9 +20,13 @@ import InitPage from "../InitPage/InitPage";
 import { Message } from "semantic-ui-react";
 
 const Routers = ({ socket }) => {
-  const { loadUser, isUserLoaded, refreshToken, currentUser } = useContext(
-    AuthContext
-  );
+  const {
+    loadUser,
+    isUserLoaded,
+    refreshToken,
+    currentUser,
+    addEmail
+  } = useContext(AuthContext);
   const [isAddEmail, setIsAddEmail] = useState(false);
 
   useEffect(() => {
@@ -30,11 +34,14 @@ const Routers = ({ socket }) => {
       socket.removeListener("verifyEmail");
     }
     socket.on("verifyEmail", data => {
+      if (currentUser && currentUser.phone === data.phonenumber) {
+        addEmail(data);
+      }
       if (currentUser && currentUser.Ref_Key === data.refKey) {
         setIsAddEmail(true);
       }
     });
-  }, [socket, currentUser]);
+  }, [socket, currentUser, addEmail]);
 
   useEffect(() => {
     loadUser();

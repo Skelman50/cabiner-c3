@@ -17,7 +17,8 @@ import {
   SET_AUTH_ERROR,
   RESET_PASSWORD,
   REGISTER_USER,
-  DELETE_EMAIL
+  DELETE_EMAIL,
+  ADD_EMAIL
 } from "../types";
 import { request } from "../../utils/request";
 import { sleep } from "../../utils/sleep";
@@ -277,11 +278,33 @@ const AUthState = ({ children }) => {
     dispatch({ type: DELETE_EMAIL, payload: { newUsers, newCurrentUser } });
   }, []);
 
+  const addEmail = useCallback(
+    ({ email, refKey }) => {
+      const newCurrentUser = { ...state.currentUser };
+      if (newCurrentUser.Ref_Key === refKey) {
+        newCurrentUser.e_mail = [...newCurrentUser.e_mail, email];
+      }
+
+      const newUsers = state.users.map(user => {
+        if (user.Ref_Key === refKey) {
+          return {
+            ...user,
+            e_mail: [...user.e_mail, email]
+          };
+        }
+        return user;
+      });
+      dispatch({ type: ADD_EMAIL, payload: { newCurrentUser, newUsers } });
+    },
+    [state.users, state.currentUser]
+  );
+
   return (
     <AuthContext.Provider
       value={{
         ...state,
         loadUser,
+        addEmail,
         deleteEmail,
         setCurrentUser,
         logOut,

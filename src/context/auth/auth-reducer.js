@@ -15,7 +15,8 @@ import {
   SET_AUTH_ERROR,
   RESET_PASSWORD,
   REGISTER_USER,
-  DELETE_EMAIL
+  DELETE_EMAIL,
+  ADD_EMAIL
 } from "../types";
 
 const handlers = {
@@ -104,6 +105,13 @@ const handlers = {
     users: payload.newUsers,
     currentUser: payload.newCurrentUser
   }),
+  [ADD_EMAIL]: (state, { payload }) => {
+    return {
+      ...state,
+      currentUser: payload.newCurrentUser,
+      users: payload.newUsers
+    };
+  },
   DEFAULT: state => state
 };
 
