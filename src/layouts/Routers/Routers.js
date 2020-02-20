@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import PageHeader from "../PageHeader/PageHeader";
 import Contracts from "../../pages/Contracts/Contracts";
@@ -17,15 +17,24 @@ import SettingsUsers from "../../pages/Settings/Users/SettingsUsers";
 import SettingsContacts from "../../pages/Settings/Contacts/SettingsContacts";
 import SettingsPassword from "../../pages/Settings/Password/SettingsPassword";
 import InitPage from "../InitPage/InitPage";
+import { Message } from "semantic-ui-react";
 
 const Routers = ({ socket }) => {
-  const { loadUser, isUserLoaded, refreshToken } = useContext(AuthContext);
+  const { loadUser, isUserLoaded, refreshToken, currentUser } = useContext(
+    AuthContext
+  );
+  const [isAddEmail, setIsAddEmail] = useState(false);
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("sad");
+    if (currentUser) {
+      socket.removeListener("verifyEmail");
+    }
+    socket.on("verifyEmail", data => {
+      if (currentUser && currentUser.Ref_Key === data.refKey) {
+        setIsAddEmail(true);
+      }
     });
-  }, [socket]);
+  }, [socket, currentUser]);
 
   useEffect(() => {
     loadUser();
@@ -44,6 +53,14 @@ const Routers = ({ socket }) => {
     <BrowserRouter>
       <PageHeader />
       <PageWrapper>
+        {isAddEmail && (
+          <Message
+            icon="warning"
+            info
+            content="Пошта успішно додана"
+            onDismiss={() => setIsAddEmail(false)}
+          />
+        )}
         <Switch>
           <PrivateRoute path="/" exact component={Contracts} />
           <PrivateRoute path="/archives/bills" component={Bills} />
