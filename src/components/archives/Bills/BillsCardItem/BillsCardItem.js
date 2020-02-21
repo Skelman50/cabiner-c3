@@ -80,7 +80,7 @@ const BillsCardItem = ({ contract }) => {
         />
       </div>
 
-      <div style={{ padding: "0 1em 1em" }}>
+      <div className="bills-card-actions">
         <Button
           disabled={isLoading}
           loading={isLoading}

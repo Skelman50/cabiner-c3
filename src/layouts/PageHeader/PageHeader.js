@@ -89,7 +89,11 @@ const PageLayout = () => {
             </Menu.Menu>
           )}
 
-          <Menu.Menu position="right" className="logo">
+          <Menu.Menu
+            position="right"
+            className="logo"
+            onClick={() => window.open("https://yavir2000.com/")}
+          >
             <Image src={yavir} alt="" style={{ height: "50px" }} />
           </Menu.Menu>
           {isContragentMenu && (

@@ -1,5 +1,12 @@
 .acts-datepicker-content {
-  padding: 0 1em 1em;
+  padding: 0 1em 0.2em 1em;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+}
+
+.acts-card-item-actions {
+  display: flex;
+  margin: 1em;
+  justify-content: flex-end;
 }
 
 .acts-datepicker-label {

@@ -1,6 +1,11 @@
 .bills-card-content {
-  padding: 0 1em 1em;
+  padding: 0em 1em 0.2em 1em;
   display: flex;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+}
+
+.bills-card-actions {
+  padding: 1em 1em 1em 1em;
 }
 
 /* @media (max-width: 550px) {

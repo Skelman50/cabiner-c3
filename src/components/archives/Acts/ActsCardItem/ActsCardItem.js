@@ -61,13 +61,7 @@ const ActCardItem = ({ contract }) => {
           maxDate={new Date()}
         />
       </div>
-      <div
-        style={{
-          display: "flex",
-          margin: "0 1em 1em",
-          justifyContent: "flex-end"
-        }}
-      >
+      <div className="acts-card-item-actions">
         <Button
           className="archive-acts-button"
           primary

@@ -68,7 +68,7 @@ const ContractSettings = ({ open, onClose, contract, data, setUpdated }) => {
                   label="Email"
                   name="email"
                   disabled
-                  onClick={() => setRedirectTo("/settings")}
+                  onClick={() => setRedirectTo("/settings/contacts")}
                 />
               }
             />
@@ -117,6 +117,7 @@ const ContractSettings = ({ open, onClose, contract, data, setUpdated }) => {
       </Modal.Header>
       <Modal.Actions>
         <Button
+          icon="save"
           primary
           content="Зберегти"
           loading={isLoading}

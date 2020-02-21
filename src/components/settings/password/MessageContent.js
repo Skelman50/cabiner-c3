@@ -13,7 +13,7 @@ const MessageContent = ({ type }) => {
       {type === "confirm" && (
         <Fragment>
           <Icon name="exclamation circle" />
-          <span>Введіть свій старий пароль!</span>
+          <span>Введіть свій пароль!</span>
         </Fragment>
       )}
       {type === "edit" && (

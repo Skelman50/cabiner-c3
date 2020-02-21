@@ -14,9 +14,9 @@ const ConfirmForm = ({
       <Form onSubmit={onSubmit} loading={loading}>
         <Form.Input
           type="password"
-          label="Введіть старий пароль"
+          label="Пароль"
           icon="lock"
-          placeholder="Старий пароль"
+          placeholder="Введіть пароль"
           value={value}
           onChange={e => setValue(e.target.value)}
           iconPosition="left"
